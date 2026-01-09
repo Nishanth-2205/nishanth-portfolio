@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nishanth Ganji - Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Fixed Navbar -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-left">
+                <button class="navbar-name" onclick="scrollToTop()" title="Back to top">Nishanth Ganji</button>
+            </div>
+            <div class="navbar-right">
+                <a class="navbar-link" id="navAboutBtn" aria-haspopup="dialog">About me</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTopBtn" aria-label="Scroll to top" title="Back to top">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 15l6-6 6 6"></path>
+        </svg>
+    </button>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-background">
+                <div class="gradient-orb orb-1"></div>
+                <div class="gradient-orb orb-2"></div>
+                <div class="gradient-orb orb-3"></div>
+            </div>
+            <div class="hero-text">
+                <div class="hero-quote-wrapper">
+                    <p class="hero-quote">
+                        Hey, I'm <span class="name-highlight">Nishanth</span>. I bridge engineering and business to build things that matter.
+                        <br><br>
+                        From Salesforce and cloud architecture to AI and data-driven systems, I design and ship products that help organizations grow, adapt, and stay ahead in a fast-moving digital world.
+                    </p>
+                </div>
+                <div class="hero-accent"></div>
+            </div>
+        </section>
+
+        <!-- Exploration Cards Section -->
+        <section class="cards-section">
+            <div class="cards-header">
+                <h2 class="section-title">Explore My Journey</h2>
+                <p class="section-subtitle">Click on any section to learn more</p>
+            </div>
+            <div class="cards-container">
+                <button class="card card-1" data-modal="education">
+                    <div class="card-bg"></div>
+                    <div class="card-overlay-skew" aria-hidden="true"></div>
+                    <div class="shine"><span aria-hidden="true"></span></div>
+                    <div class="card-content">
+                        <h3>Education</h3>
+                        <p>Academic Background</p>
+                        <div class="card-arrow">
+                            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 15l6-6 6 6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+                <button class="card card-2" data-modal="work-experience">
+                    <div class="card-bg"></div>
+                    <div class="card-overlay-skew" aria-hidden="true"></div>
+                    <div class="shine"><span aria-hidden="true"></span></div>
+                    <div class="card-content">
+                        <h3>Work Experience</h3>
+                        <p>Roles &amp; Impact</p>
+                        <div class="card-arrow">
+                            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 15l6-6 6 6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+                <button class="card card-3" data-modal="certifications">
+                    <div class="card-bg"></div>
+                    <div class="card-overlay-skew" aria-hidden="true"></div>
+                    <div class="shine"><span aria-hidden="true"></span></div>
+                    <div class="card-content">
+                        <h3>Certifications</h3>
+                        <p>Professional Credentials</p>
+                        <div class="card-arrow">
+                            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 15l6-6 6 6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+                <button class="card card-5" data-modal="publications">
+                    <div class="card-bg"></div>
+                    <div class="card-overlay-skew" aria-hidden="true"></div>
+                    <div class="shine"><span aria-hidden="true"></span></div>
+                    <div class="card-content">
+                        <h3>Publications</h3>
+                        <p>Articles & Insights</p>
+                        <div class="card-arrow">
+                            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 15l6-6 6 6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+                <button class="card card-6" data-modal="volunteering">
+                    <div class="card-bg"></div>
+                    <div class="card-overlay-skew" aria-hidden="true"></div>
+                    <div class="shine"><span aria-hidden="true"></span></div>
+                    <div class="card-content">
+                        <h3>Community Service</h3>
+                        <p>Volunteering & Impact</p>
+                        <div class="card-arrow">
+                            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 15l6-6 6 6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- More About Me Section -->
+        <section class="about-section" id="about-me">
+            <div class="about-container">
+                <button class="about-button">
+                    <div class="about-bg"></div>
+                        <div class="about-content">
+                        <span class="about-label">Get to Know Me</span>
+                        <h2>Life &amp; Interests</h2>
+                        <p>Discover my hobbies, achievements, and what I do for fun.</p>
+                        <div class="about-arrow">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 15l6-6 6 6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <!-- Connect Section -->
+        <section class="connect-section">
+            <div class="connect-bg">
+                <div class="gradient-orb orb-4"></div>
+                <div class="gradient-orb orb-5"></div>
+            </div>
+            <div class="connect-container">
+                <h2>Let's Connect</h2>
+                <p>Get in touch through your preferred channel</p>
+                <div class="connect-buttons">
+                    <ul class="connect-icons" aria-label="Contact links">
+                        <li>
+                            <a href="https://www.linkedin.com/in/nishanth-ganji/" target="_blank" aria-label="LinkedIn">
+                                <img class="icon-image" src="https://img.icons8.com/?size=100&id=BRElTmOLC6Bh&format=png&color=000000" alt="LinkedIn">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:nishanth.ganji@gmail.com" aria-label="Email">
+                                <img class="icon-image" src="https://img.icons8.com/?size=100&id=83161&format=png&color=000000" alt="Email">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <!-- Education Modal -->
+    <div class="modal" id="education-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <h2>Education</h2>
+                <div class="education-grid">
+                    <div class="education-card edu-card-1">
+                        <div class="education-info">
+                            <h3>Indiana University, Kelley School of Business</h3>
+                            <div class="edu-mobile-toggle">
+                                <input class="edu-toggle" type="checkbox" id="edu1-toggle">
+                                <label class="edu-toggle-btn" for="edu1-toggle">
+                                    <span class="label-more">Show more</span>
+                                    <span class="label-less">Show less</span>
+                                </label>
+                                <div class="edu-details">
+                                    <div class="edu-quick">
+                                        <span class="edu-pill">MS Information Systems</span>
+                                        <span class="edu-pill">GPA 4.0/4.0</span>
+                                        <span class="edu-pill">Bloomington, IN</span>
+                                        <span class="edu-pill">Concentration: Data Analytics &amp; AI</span>
+                                    </div>
+                                    <div class="edu-coursework">
+                                        <span class="edu-label">RELEVANT COURSEWORK</span>
+                                        <ul class="edu-coursework-list">
+                                            <li>IT Strategy – Technology–business alignment, CIO leadership, digital transformation, strategic IT planning</li>
+                                            <li>Power, Politics &amp; IS Implementation – Organizational behavior, stakeholder management, IT investment decisions, business case development</li>
+                                            <li>Cloud &amp; Platform Architecture – Cloud computing models, enterprise architecture, emerging technologies, scalable system design</li>
+                                            <li>Enterprise Platforms – ERP &amp; enterprise systems, business process integration, digital transformation, decision support</li>
+                                            <li>IT Governance, Risk &amp; Controls – IT governance frameworks, risk management, compliance, technology policy &amp; controls</li>
+                                            <li>Artificial Intelligence – Business applications of AI, organizational transformation, AI strategy &amp; adoption</li>
+                                            <li>Data Analytics – Data preparation, business analysis, data interpretation, decision support</li>
+                                            <li>Design Thinking – Human-centered design, innovation methods, problem framing, solution prototyping</li>
+                                            <li>Agility, Process &amp; Automation – Business process modeling, robotic process automation (RPA), Agile &amp; Scrum methodologies</li>
+                                            <li>AI-Driven Development – AI-augmented software development, intelligent coding, testing &amp; deployment workflows</li>
+                                            <li>Product Management – Product strategy, customer discovery, roadmap prioritization, impact measurement</li>
+                                        </ul>
+                                    </div>
+                                    <p class="edu-coursework"><span class="edu-label">CONCENTRATION</span>: <span class="edu-underline">Data Analytics and AI</span> (Business Data Mining, Enterprise Data Management, Big Data Technologies, Designing and Deploying AI solutions, Digital Platforms and AI, Agentic AI Systems, Power, Persuasion, Influence, Negotiation)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="education-icon" aria-hidden="true">
+                            <div class="gallery edu-gallery">
+                                <img src="images/IU%20LOGO.jpg" alt="Indiana University logo">
+                                <img src="images/Kelley%20building.webp" alt="Kelley School of Business building">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="education-card edu-card-2">
+                        <div class="education-info">
+                            <h3>Chaitanya Bharathi Institute of Technology</h3>
+                            <div class="edu-mobile-toggle">
+                                <input class="edu-toggle" type="checkbox" id="edu2-toggle">
+                                <label class="edu-toggle-btn" for="edu2-toggle">
+                                    <span class="label-more">Show more</span>
+                                    <span class="label-less">Show less</span>
+                                </label>
+                                <div class="edu-details">
+                                    <div class="edu-quick">
+                                        <span class="edu-pill">BE Information Technology</span>
+                                        <span class="edu-pill">GPA 3.89/4.0</span>
+                                        <span class="edu-pill">Hyderabad, India</span>
+                                    </div>
+                                    <div class="edu-coursework">
+                                        <span class="edu-label">RELEVANT COURSEWORK</span>
+                                        <ul class="edu-coursework-list">
+                                            <li>Programming Concepts - OOPs, Data Structure and Problem Solving (C, C++, Python, Java, Web Development)</li>
+                                            <li>Probability and Statistics - Hypothesis testing (Z test, T test, Chi-Square Test, ANOVA)</li>
+                                            <li>Database Management Systems - PL/SQL programs, triggers, normalization</li>
+                                            <li>Data Warehousing and Data Mining - OLAP, OLTP, Star Schema</li>
+                                            <li>Data Science with Python - Data cleaning, preparation, wrangling, transformation, visualization</li>
+                                            <li>Artificial Intelligence - Machine Learning and Deep Learning algorithms</li>
+                                            <li>Big Data Analytics - Hadoop, HDFS, MapReduce, Pig, Hive, Spark, Scala</li>
+                                            <li>Cloud Computing</li>
+                                            <li>Software Engineering - Agile, STAR UML, Software Development Life Cycle (SDLC)</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="education-icon" aria-hidden="true">
+                            <div class="gallery edu-gallery">
+                                <img src="images/CBIT%20LOGO.webp" alt="CBIT logo">
+                                <img src="images/CBIT%20building.webp" alt="CBIT building">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Work Experience Modal -->
+    <div class="modal" id="work-experience-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <h2>Work Experience</h2>
+                <div class="work-card">
+                    <div class="work-hero">
+                        <div class="work-hero-left">
+                            <div class="work-logo-wrap">
+                                <img class="work-logo" src="images/A360.png" alt="Accelerize360 logo">
+                            </div>
+                            <div class="work-hero-text">
+                                <h3>Accelerize360</h3>
+                                <p class="position">Senior Developer | Salesforce Developer</p>
+                                <p class="work-meta">Hyderabad, India | May 2023 - May 2025</p>
+                            </div>
+                        </div>
+                        <div class="work-hero-accent" aria-hidden="true"></div>
+                    </div>
+
+                    <div class="work-mobile-toggle">
+                        <input class="work-toggle" type="checkbox" id="work1-toggle">
+                        <label class="work-toggle-btn" for="work1-toggle">
+                            <span class="label-more">Show more</span>
+                            <span class="label-less">Show less</span>
+                        </label>
+                        <div class="work-details">
+                            <section class="work-section">
+                                <h4>Executive Summary</h4>
+                                <p class="description">Enterprise systems leader specializing in building scalable CRM platforms, cloud integrations, and high-performance business systems for global and Fortune 500 clients. Proven record of delivering measurable impact across engineering, operations, and leadership decision-making.</p>
+                            </section>
+
+                            <section class="work-section">
+                                <h4>Key Contributions</h4>
+                                <ul class="work-list">
+                                    <li>Led enterprise CRM architecture and multi-cloud platform design supporting high-volume global operations.</li>
+                                    <li>Built scalable integration layers using REST APIs and MuleSoft connecting Salesforce with external business systems.</li>
+                                    <li>Engineered real-time executive dashboards transforming CRM data into actionable insights.</li>
+                                    <li>Developed automation frameworks across lead, opportunity, and service workflows to eliminate manual processes.</li>
+                                    <li>Implemented CI/CD pipelines and release governance models for predictable, low-risk deployments.</li>
+                                    <li>Modernized backend systems through performance optimization and refactoring of critical components.</li>
+                                </ul>
+                            </section>
+
+                            <section class="work-section">
+                                <h4>Results Delivered</h4>
+                                <ul class="work-list">
+                                    <li>Enabled leadership to use CRM as a core decision engine for revenue planning and go-to-market strategy.</li>
+                                    <li>Reduced system latency and report-generation delays in high-volume environments.</li>
+                                    <li>Increased platform reliability, security, and compliance through advanced governance frameworks.</li>
+                                    <li>Improved developer productivity and delivery consistency through standardized DevOps practices.</li>
+                                    <li>Accelerated product adoption by translating technical capabilities into clear business value.</li>
+                                </ul>
+                            </section>
+
+                            <section class="work-section">
+                                <h4>Leadership &amp; Influence</h4>
+                                <ul class="work-list">
+                                    <li>Mentored 40+ engineers through structured onboarding, design reviews, and performance optimization.</li>
+                                    <li>Acted as the technical bridge between business stakeholders, architects, and delivery teams.</li>
+                                    <li>Elevated engineering culture by enforcing coding standards, ownership, and continuous improvement.</li>
+                                    <li>Strengthened cross-functional execution by aligning product, business, and engineering priorities.</li>
+                                </ul>
+                            </section>
+
+                            <section class="work-section">
+                                <h4>Tools &amp; Technologies</h4>
+                                <div class="work-tags">
+                                    <span class="edu-pill work-tag">Salesforce Cloud</span>
+                                    <span class="edu-pill work-tag">Apex</span>
+                                    <span class="edu-pill work-tag">MuleSoft</span>
+                                    <span class="edu-pill work-tag">REST</span>
+                                    <span class="edu-pill work-tag">SOQL</span>
+                                    <span class="edu-pill work-tag">CI/CD</span>
+                                    <span class="edu-pill work-tag">Git</span>
+                                    <span class="edu-pill work-tag">Google Cloud</span>
+                                    <span class="edu-pill work-tag">Cloud Integration</span>
+                                    <span class="edu-pill work-tag">DevOps</span>
+                                    <span class="edu-pill work-tag">API Design</span>
+                                    <span class="edu-pill work-tag">Data Visualization</span>
+                                    <span class="edu-pill work-tag">Agile</span>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Certifications Modal -->
+    <div class="modal" id="certifications-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <h2>Certifications</h2>
+                <div class="certifications-grid" aria-label="Certification highlights">
+                    <article class="cert-hex cert-hex-1">
+                        <div class="cert-hex__inner">
+                            <span class="cert-hex__badge">Salesforce</span>
+                            <h3>Salesforce Certified Platform Developer I</h3>
+                            <p class="issuer">Issued Nov 2023</p>
+                            <p class="date">Credential ID 3812898</p>
+                            <a class="cert-hex__action" href="https://www.salesforce.com/trailblazer/nganji7" target="_blank" rel="noopener">View credential</a>
+                        </div>
+                    </article>
+                    <article class="cert-hex cert-hex-2">
+                        <div class="cert-hex__inner">
+                            <span class="cert-hex__badge">Salesforce</span>
+                            <h3>Salesforce Certified Platform Developer II</h3>
+                            <p class="issuer">Issued Jun 2024</p>
+                            <p class="date">Credential ID 4624841</p>
+                            <a class="cert-hex__action" href="https://www.salesforce.com/trailblazer/nganji7" target="_blank" rel="noopener">View credential</a>
+                        </div>
+                    </article>
+                    <article class="cert-hex cert-hex-3">
+                        <div class="cert-hex__inner">
+                            <span class="cert-hex__badge">MuleSoft</span>
+                            <h3>Salesforce Certified MuleSoft Developer</h3>
+                            <p class="issuer">Issued Dec 2024</p>
+                            <p class="date">Credential ID 5392032</p>
+                            <a class="cert-hex__action" href="https://www.salesforce.com/trailblazer/nganji7" target="_blank" rel="noopener">View credential</a>
+                        </div>
+                    </article>
+                    <article class="cert-hex cert-hex-4">
+                        <div class="cert-hex__inner">
+                            <span class="cert-hex__badge">Udemy</span>
+                            <h3>The Web Developer Bootcamp 2023</h3>
+                            <p class="issuer">Issued Apr 2023</p>
+                            <a class="cert-hex__action" href="https://www.udemy.com/certificate/UC-cd53763c-66c9-4af4-a9cb-0fb8a4614320/" target="_blank" rel="noopener">View credential</a>
+                        </div>
+                    </article>
+                    <article class="cert-hex cert-hex-5">
+                        <div class="cert-hex__inner">
+                            <span class="cert-hex__badge">Smart Interviews</span>
+                            <h3>Smart Coder</h3>
+                            <p class="issuer">Issued Jan 2022</p>
+                            <a class="cert-hex__action" href="https://smartinterviews.in/certificate/0e428c27" target="_blank" rel="noopener">View credential</a>
+                        </div>
+                    </article>
+                    <article class="cert-hex cert-hex-6">
+                        <div class="cert-hex__inner">
+                            <span class="cert-hex__badge">EdX - Columbia University</span>
+                            <h3>DS103x: Internet of Things</h3>
+                            <p class="issuer">Issued Jun 2020</p>
+                            <a class="cert-hex__action" href="https://courses.edx.org/certificates/e68b9337520a4e2ab538e2277acf17d3" target="_blank" rel="noopener">View credential</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Modal -->
+    <div class="modal" id="projects-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <h2>Project Experience</h2>
+                <div class="project-item">
+                    <h3>Project Name</h3>
+                    <p class="tech">Technologies: Tech Stack</p>
+                    <p class="description">Project description and impact.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Publications Modal -->
+    <div class="modal" id="publications-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <h2>Publications</h2>
+                <div class="publication-item">
+                    <h3>A Review on Sign Language Recognition Techniques</h3>
+                    <p class="publication-meta">Published in: Proceedings of the 2nd International Conference on Cognitive and Intelligent Computing</p>
+                    <div class="publication-tags">
+                        <span class="edu-pill">Publisher: Springer</span>
+                        <span class="edu-pill">Date: Sep 27, 2023</span>
+                    </div>
+                    <p class="description">Contributed to the academic field by publishing a Springer paper on existing sign language recognition methodologies, conducting a comprehensive literature survey to identify breakthroughs and common limitations, laying the groundwork for an innovative solution proposal using computer vision and deep learning.</p>
+                    <a class="publication-link" href="https://link.springer.com/chapter/10.1007/978-981-99-2742-5_32" target="_blank" rel="noopener">Read the paper</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Volunteering Modal -->
+    <div class="modal" id="volunteering-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <h2>Community Service & Volunteering</h2>
+                <div class="volunteer-overview">
+                    <div class="volunteer-stats">
+                        <div class="volunteer-stat volunteer-stat--animal">
+                            <span class="volunteer-stat-value">Multiple</span>
+                            <span class="volunteer-stat-label">Welfare groups supported</span>
+                        </div>
+                        <div class="volunteer-stat volunteer-stat--outreach">
+                            <span class="volunteer-stat-value">5,500+</span>
+                            <span class="volunteer-stat-label">Individuals supported by NGO</span>
+                        </div>
+                        <div class="volunteer-stat volunteer-stat--tutor">
+                            <span class="volunteer-stat-value">38+</span>
+                            <span class="volunteer-stat-label">Students mentored weekly</span>
+                        </div>
+                        <div class="volunteer-stat volunteer-stat--leadership">
+                            <span class="volunteer-stat-value">2</span>
+                            <span class="volunteer-stat-label">Campus leadership roles</span>
+                        </div>
+                    </div>
+                    <nav class="volunteer-nav" aria-label="Community service sections">
+                        <a class="volunteer-nav-link" href="#volunteer-animal">Animal Welfare</a>
+                        <a class="volunteer-nav-link" href="#volunteer-outreach">Education Outreach</a>
+                        <a class="volunteer-nav-link" href="#volunteer-tutor">Peer Tutoring</a>
+                        <a class="volunteer-nav-link" href="#volunteer-leadership">Student Leadership</a>
+                    </nav>
+                </div>
+                <div class="volunteer-grid">
+                    <article class="volunteer-card volunteer-card--animal" id="volunteer-animal">
+                        <div class="volunteer-card-header">
+                            <img class="volunteer-icon" src="images/dogbowl.png" alt="Street animal welfare icon">
+                            <div>
+                                <h3>Street Animal Welfare Volunteer</h3>
+                                <p class="volunteer-meta">Hyderabad, India</p>
+                            </div>
+                        </div>
+                        <div class="volunteer-separator" aria-hidden="true">
+                            <span class="volunteer-separator-icon">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 13a5 5 0 0 0 7.07 0l1.41-1.41a5 5 0 0 0 0-7.07 5 5 0 0 0-7.07 0L10 6"/>
+                                    <path d="M14 11a5 5 0 0 0-7.07 0L5.52 12.4a5 5 0 0 0 0 7.07 5 5 0 0 0 7.07 0L14 18"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <p class="description">During my undergraduate years, I actively volunteered with multiple local dog welfare groups and independent rescuers across Hyderabad to support injured, abandoned, and at-risk street dogs.</p>
+                        <p class="description">My involvement included coordinating basic medical care, arranging food and temporary shelter, assisting with rescue operations, and helping connect animals with adoption networks. I regularly collaborated with volunteers and local associations to raise awareness about responsible pet care and the importance of sterilization and vaccination in reducing long-term street animal suffering.</p>
+                        <p class="description">This experience taught me empathy, patience under pressure, and the value of consistent, small actions in creating meaningful impact for vulnerable communities.</p>
+                    </article>
+
+                    <article class="volunteer-card volunteer-card--outreach" id="volunteer-outreach">
+                        <div class="volunteer-card-header">
+                            <img class="volunteer-icon" src="images/NGO.png" alt="Education outreach icon">
+                            <div>
+                                <h3>Education Outreach Volunteer</h3>
+                                <p class="volunteer-meta">Government School, Hyderabad</p>
+                                <p class="volunteer-org">In collaboration with Communicando Literary Club &amp; HOPE FOR LIFE (NGO)</p>
+                            </div>
+                        </div>
+                        <div class="volunteer-separator" aria-hidden="true">
+                            <span class="volunteer-separator-icon">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 13a5 5 0 0 0 7.07 0l1.41-1.41a5 5 0 0 0 0-7.07 5 5 0 0 0-7.07 0L10 6"/>
+                                    <path d="M14 11a5 5 0 0 0-7.07 0L5.52 12.4a5 5 0 0 0 0 7.07 5 5 0 0 0 7.07 0L14 18"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <p class="description">As part of the Communicando Literary Club, I volunteered at a government school in Hyderabad through a community outreach initiative in collaboration with HOPE FOR LIFE, an NGO that provides support and assistance to over 5,500 individuals facing extraordinary circumstances across the state.</p>
+                        <p class="description">I assisted teachers during classroom activities, supported students with basic mathematics, English, and computer fundamentals, and encouraged them to explore technology as a tool for learning and opportunity. Many of these students had limited exposure to digital education, and introducing them to computers and problem-solving concepts became one of the most rewarding parts of my volunteering experience.</p>
+                    </article>
+
+                    <article class="volunteer-card volunteer-card--tutor" id="volunteer-tutor">
+                        <div class="volunteer-card-header">
+                            <img class="volunteer-icon" src="images/education.png" alt="Peer tutor icon">
+                            <div>
+                                <h3>Peer Tutor | Academic Support Volunteer</h3>
+                                <p class="volunteer-meta">Chaitanya Bharathi Institute of Technology</p>
+                                <p class="volunteer-org">Hyderabad, India</p>
+                            </div>
+                        </div>
+                        <div class="volunteer-separator" aria-hidden="true">
+                            <span class="volunteer-separator-icon">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 13a5 5 0 0 0 7.07 0l1.41-1.41a5 5 0 0 0 0-7.07 5 5 0 0 0-7.07 0L10 6"/>
+                                    <path d="M14 11a5 5 0 0 0-7.07 0L5.52 12.4a5 5 0 0 0 0 7.07 5 5 0 0 0 7.07 0L14 18"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <p class="description">While pursuing my undergraduate degree, I volunteered as a peer tutor for students struggling with Advanced Data Structures and Database Management Systems.</p>
+                        <p class="description">I conducted weekly tutoring sessions for over 38 students, helping them strengthen technical fundamentals, improve problem-solving skills, and gain confidence in subjects that often feel intimidating. Beyond academics, I served as a mentor for juniors navigating coursework, projects, and early career decisions.</p>
+                    </article>
+
+                    <article class="volunteer-card volunteer-card--leadership" id="volunteer-leadership">
+                        <div class="volunteer-card-header">
+                            <img class="volunteer-icon" src="images/literalClub.png" alt="Student leadership icon">
+                            <div>
+                                <h3>Student Leadership &amp; Campus Engagement</h3>
+                                <p class="volunteer-meta">Communicando Literary Club, CBIT</p>
+                                <p class="volunteer-org">Head of Website Department | Senior Coordinator of Events</p>
+                            </div>
+                        </div>
+                        <div class="volunteer-separator" aria-hidden="true">
+                            <span class="volunteer-separator-icon">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M10 13a5 5 0 0 0 7.07 0l1.41-1.41a5 5 0 0 0 0-7.07 5 5 0 0 0-7.07 0L10 6"/>
+                                    <path d="M14 11a5 5 0 0 0-7.07 0L5.52 12.4a5 5 0 0 0 0 7.07 5 5 0 0 0 7.07 0L14 18"/>
+                                </svg>
+                            </span>
+                        </div>
+                        <p class="description">At Communicando, the college's literary club, I played a key leadership role in building both the club's digital presence and its campus impact.</p>
+                        <p class="description">As Head of the Website Department, I led the design and development of the club's official website, creating a central platform for event communication, student engagement, and content sharing.</p>
+                        <p class="description">As Senior Coordinator of Events, I helped conceptualize and execute workshops and interactive events focused on improving students' vocabulary, communication skills, and confidence, while also organizing fun campus-wide activities such as impersonation contests and creative competitions. These events consistently drew high participation and strengthened the club's role as a creative and inclusive student community.</p>
+                        <a class="volunteer-link" href="https://www.instagram.com/communicando/" target="_blank" rel="noopener">Visit Communicando on Instagram</a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About Modal (short summary, opened from navbar) -->
+    <div class="modal" id="about-modal">
+        <div class="modal-content about-modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body about-modal-body">
+                <div class="about-modal-hero">
+                    <span class="about-modal-kicker">About Me</span>
+                    <h2>"The Force will be with you. Always."</h2>
+                    <p class="about-modal-lede">That line from Star Wars is not about hope. It is about commitment. It means when things get difficult, when systems fail, when pressure rises, you do not disappear. You stay. You adapt. You finish what you started.</p>
+                </div>
+                <div class="about-modal-stack">
+                    <p class="about-modal-emphasis">That is how I build.</p>
+                    <p>I do not chase trends in technology. I build systems that endure. My journey began in engineering, sharpened in enterprise development, and now evolves at Indiana University's Kelley School of Business, where I pursue my Master's in Information Systems with a perfect 4.0 GPA while serving as a Graduate Assistant for academic excellence. But the real story is not the credentials. It is the mindset behind them. I am obsessed with understanding how complex systems work and unwilling to tolerate inefficiency in any form.</p>
+                    <div class="about-modal-split">
+                        <div class="about-modal-split-text">
+                            <p>At Accelerize360, I rose from developer to Senior Developer by doing the hard things well and doing them consistently. I lead enterprise CRM architecture, design multi-cloud solutions for Fortune 500 clients, and deliver platforms executives trust when the stakes are high. I have built real-time performance dashboards that shape strategy, engineered backend optimizations that transformed system speed and reliability, and mentored over forty engineers to ship better software with confidence and discipline.</p>
+                        </div>
+                        <div class="about-modal-portrait-wrap">
+                            <img class="about-modal-portrait" src="images/ME.png" alt="Portrait of Nishanth Ganji">
+                        </div>
+                    </div>
+                    <p class="about-modal-divider">But engineering was never the endgame.</p>
+                    <p>I published AI research with Springer and led the creation of a real-time Sign Language Recognition system with ninety-nine percent accuracy, not for recognition, but to prove that technology should solve problems that matter. From neural networks to deployed platforms, I have taken ideas from nothing to production systems that change real lives.</p>
+                    <p>Leadership did not arrive with a title. It was forged in execution. I have led cross-functional teams, built governance frameworks, and owned products from first requirement to post-launch adoption. When complexity rises, I do not panic. I simplify. I align people. I execute. I speak the language of engineers, executives, and users, and I make sure they are moving toward the same future.</p>
+                    <p>Today my focus spans AI systems, enterprise platforms, cloud architecture, and product strategy. I do not just write code. I design leverage. I do not manage projects. I build momentum. I do not chase success. I construct it.</p>
+                    <p>This portfolio is not a highlight reel. It is a record of pressure faced, problems solved, systems built, teams elevated, and standards raised.</p>
+                    <p class="about-modal-final">And the mission is clear. We are only getting started.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- More About Me Modal (detailed, opened from the section) -->
+    <div class="modal" id="more-about-modal">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <div class="modal-body">
+                <div class="interests-modal">
+                    <section class="interests-hero">
+                        <div class="interests-hero-bg" aria-hidden="true"></div>
+                        <div class="interests-hero-content">
+                            <span class="interests-hero-kicker">Life &amp; Interests</span>
+                            <h2>The world beyond my work.</h2>
+                            <p class="interests-hero-subtitle">What keeps me curious, balanced, and alive.</p>
+                            <a class="interests-hero-scroll" href="#interests-intro" aria-label="Scroll to narrative intro">
+                                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M6 9l6 6 6-6"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </section>
+
+                    <section class="interests-intro interests-reveal" id="interests-intro">
+                        <p>Outside of work, I am driven by the same thing that shapes my career: curiosity and the desire to experience the world deeply, not just pass through it.</p>
+                        <p>Whether I am traveling to new places, framing a shot through a camera lens, grinding through a competitive game, or training on the mat, I approach life with intention. Every interest I pursue sharpens something different in me: focus, creativity, discipline, patience, or perspective. Together, they keep me grounded, balanced, and constantly evolving.</p>
+                    </section>
+
+                    <section class="interests-grid interests-reveal" aria-label="Interest highlights">
+                        <a class="interest-card" href="#travel">
+                            <div class="interest-card-media interest-card-media--travel" role="img" aria-label="Travel image placeholder"></div>
+                            <div class="interest-card-body">
+                                <h3>Travel</h3>
+                                <p>Japan and Thailand taught me perspective. More places next.</p>
+                                <span class="interest-card-link">View story</span>
+                            </div>
+                        </a>
+                        <a class="interest-card" href="#cinema">
+                            <div class="interest-card-media interest-card-media--cinema" role="img" aria-label="Cinematography image placeholder"></div>
+                            <div class="interest-card-body">
+                                <h3>Cinematography &amp; Photography</h3>
+                                <p>Mood, light, and storytelling in frames.</p>
+                                <span class="interest-card-link">View story</span>
+                            </div>
+                        </a>
+                        <a class="interest-card" href="#pickleball">
+                            <div class="interest-card-media interest-card-media--pickleball" role="img" aria-label="Pickleball image placeholder"></div>
+                            <div class="interest-card-body">
+                                <h3>Pickleball</h3>
+                                <p>Fast rallies, good friends, better energy.</p>
+                                <span class="interest-card-link">View story</span>
+                            </div>
+                        </a>
+                        <a class="interest-card" href="#gaming">
+                            <div class="interest-card-media interest-card-media--gaming" role="img" aria-label="Competitive gaming image placeholder"></div>
+                            <div class="interest-card-body">
+                                <h3>Competitive Gaming</h3>
+                                <p>Strategy, reflex, adaptation.</p>
+                                <span class="interest-card-link">View story</span>
+                            </div>
+                        </a>
+                        <a class="interest-card" href="#scuba">
+                            <div class="interest-card-media interest-card-media--scuba" role="img" aria-label="Scuba diving image placeholder"></div>
+                            <div class="interest-card-body">
+                                <h3>Scuba Diving</h3>
+                                <p>Stillness beneath the surface.</p>
+                                <span class="interest-card-link">View story</span>
+                            </div>
+                        </a>
+                        <a class="interest-card" href="#pluto">
+                            <div class="interest-card-media interest-card-media--pluto" role="img" aria-label="Pluto image placeholder"></div>
+                            <div class="interest-card-body">
+                                <h3>Pluto</h3>
+                                <p>The best part of my day.</p>
+                                <span class="interest-card-link">View story</span>
+                            </div>
+                        </a>
+                    </section>
+
+                    <section class="interest-story interests-reveal" id="travel">
+                        <div class="interest-media">
+                            <div class="interest-carousel" data-carousel="travel" tabindex="0" aria-label="Travel photo carousel">
+                                <div class="carousel-stack">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Travel%201.jpg" alt="Travel scene 1">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Travel%202.jpeg" alt="Travel scene 2">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Travel%203.jpg" alt="Travel scene 3">
+                                </div>
+                                <div class="carousel-controls" aria-hidden="true">
+                                    <button class="carousel-control prev" type="button" aria-label="Previous image">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M15 18l-6-6 6-6"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="carousel-control next" type="button" aria-label="Next image">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M9 18l6-6-6-6"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="interest-content">
+                            <h3>Travel</h3>
+                            <p>Travel, for me, is about perspective.</p>
+                            <p>Japan and Thailand were more than trips. They were experiences that changed how I see people, design, and everyday life. I came back with a deeper respect for culture, craft, and the quiet details that make places unforgettable.</p>
+                            <p>I am still early in my travel story, and that is the exciting part. I want to explore more countries, collect more perspectives, and keep letting the world widen the way I think.</p>
+                            <div class="interest-tags">
+                                <span class="interest-tag">Culture</span>
+                                <span class="interest-tag">Perspective</span>
+                                <span class="interest-tag">Exploration</span>
+                            </div>
+                            <p class="interest-muted">Countries visited: Japan, Thailand</p>
+                        </div>
+                    </section>
+
+                    <section class="interest-story interests-reveal is-reverse" id="cinema">
+                        <div class="interest-media">
+                            <div class="interest-carousel" data-carousel="cinema" tabindex="0" aria-label="Cinematography photo carousel">
+                                <div class="carousel-stack">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Cinematography%20and%20Photography%201.jpg" alt="Cinematography scene 1">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Cinematography%20and%20Photography%202.jpg" alt="Cinematography scene 2">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Cinematography%20and%20Photography%203.jpg" alt="Cinematography scene 3">
+                                </div>
+                                <div class="carousel-controls" aria-hidden="true">
+                                    <button class="carousel-control prev" type="button" aria-label="Previous image">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M15 18l-6-6 6-6"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="carousel-control next" type="button" aria-label="Next image">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M9 18l6-6-6-6"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="interest-content">
+                            <h3>Cinematography &amp; Photography</h3>
+                            <p>Storytelling is not only something I build through products and systems, but also through visuals.</p>
+                            <p>I am deeply interested in cinematography and photography, especially in capturing mood, movement, and emotion through light and framing. I create short cinematic videos and visual stories, some of which I share on Instagram. If this resonates with you, feel free to reach out and I will gladly share the link.</p>
+                            <p>This craft has taught me patience, attention to detail, and how powerful a single frame can be.</p>
+                            <div class="interest-tags">
+                                <span class="interest-tag">Cinematography</span>
+                                <span class="interest-tag">Photography</span>
+                                <span class="interest-tag">Editing</span>
+                            </div>
+                            <a class="interest-cta" href="mailto:nishanth.ganji@gmail.com">Request Instagram link</a>
+                        </div>
+                    </section>
+
+                    <section class="interest-story interests-reveal" id="pickleball">
+                        <div class="interest-media">
+                            <div class="interest-carousel" data-carousel="pickleball" tabindex="0" aria-label="Pickleball photo carousel">
+                                <div class="carousel-stack">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Pickleball%201.jpg" alt="Pickleball scene 1">
+                                </div>
+                                <div class="carousel-controls" aria-hidden="true">
+                                    <button class="carousel-control prev" type="button" aria-label="Previous image">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M15 18l-6-6 6-6"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="carousel-control next" type="button" aria-label="Next image">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M9 18l6-6-6-6"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="interest-content">
+                            <h3>Pickleball</h3>
+                            <p>Pickleball is my reset button.</p>
+                            <p>It is fast, social, competitive in the best way, and one of my favorite ways to stay active while spending time with friends. It keeps me moving, laughing, and grounded in the present.</p>
+                            <div class="interest-tags">
+                                <span class="interest-tag">Community</span>
+                                <span class="interest-tag">Fitness</span>
+                                <span class="interest-tag">Fun</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="interest-story interests-reveal is-reverse" id="gaming">
+                        <div class="interest-media">
+                            <div class="interest-carousel" data-carousel="gaming" tabindex="0" aria-label="Competitive gaming photo carousel">
+                                <div class="carousel-stack">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Competitive%20Gaming%201.jpg" alt="Gaming scene 1">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Competitive%20Gaming%202.jpg" alt="Gaming scene 2">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Competitive%20Gaming%203.jpg" alt="Gaming scene 3">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Competitive%20Gaming%204.jpg" alt="Gaming scene 4">
+                                </div>
+                                <div class="carousel-controls" aria-hidden="true">
+                                    <button class="carousel-control prev" type="button" aria-label="Previous image">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M15 18l-6-6 6-6"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="carousel-control next" type="button" aria-label="Next image">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M9 18l6-6-6-6"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="interest-content">
+                            <h3>Competitive Gaming</h3>
+                            <p>I enjoy competitive gaming as a serious mental sport.</p>
+                            <p>From high-level matches in Tekken 8 and Marvel Rivals to exploring entire worlds across many video games, I love the constant balance between strategy, reflex, and adaptation.</p>
+                            <p>Gaming sharpens my decision-making, focus, and ability to perform under pressure.</p>
+                            <div class="interest-tags">
+                                <span class="interest-tag">Strategy</span>
+                                <span class="interest-tag">Competition</span>
+                                <span class="interest-tag">Focus</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="interest-story interests-reveal" id="scuba">
+                        <div class="interest-media">
+                            <div class="interest-carousel" data-carousel="scuba" tabindex="0" aria-label="Scuba diving photo carousel">
+                                <div class="carousel-stack">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Scuba%20Diving%201.jpeg" alt="Scuba diving scene 1">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Scuba%20Diving%202.jpeg" alt="Scuba diving scene 2">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Scuba%20Diving%203.jpeg" alt="Scuba diving scene 3">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Scuba%20Diving%204.jpeg" alt="Scuba diving scene 4">
+                                </div>
+                                <div class="carousel-controls" aria-hidden="true">
+                                    <button class="carousel-control prev" type="button" aria-label="Previous image">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M15 18l-6-6 6-6"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="carousel-control next" type="button" aria-label="Next image">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M9 18l6-6-6-6"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="interest-content">
+                            <h3>Scuba Diving</h3>
+                            <p>Scuba diving is where time slows down for me.</p>
+                            <p>Underwater, everything becomes quieter, calmer, and more intentional. It is one of the few places where I completely disconnect from noise and reconnect with myself.</p>
+                            <p>Floating between coral, currents, and open blue water taught me patience, awareness, and respect for environments much larger than me. Every dive leaves me grounded, reset, and more present when I return to the surface.</p>
+                            <div class="interest-tags">
+                                <span class="interest-tag">Presence</span>
+                                <span class="interest-tag">Exploration</span>
+                                <span class="interest-tag">Calm</span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="interest-story interest-pluto interests-reveal" id="pluto">
+                        <div class="interest-media">
+                            <div class="interest-carousel" data-carousel="pluto" tabindex="0" aria-label="Pluto photo carousel">
+                                <div class="carousel-stack">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Pluto%201.jpg" alt="Pluto photo 1">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Pluto%202.jpg" alt="Pluto photo 2">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Pluto%203.jpg" alt="Pluto photo 3">
+                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Pluto%204.jpg" alt="Pluto photo 4">
+                                </div>
+                                <div class="carousel-controls" aria-hidden="true">
+                                    <button class="carousel-control prev" type="button" aria-label="Previous image">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M15 18l-6-6 6-6"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="carousel-control next" type="button" aria-label="Next image">
+                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M9 18l6-6-6-6"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="interest-content">
+                            <h3>Pluto</h3>
+                            <p>At the end of every long day, there is one constant that grounds me more than anything else.</p>
+                            <p>My English Cream Retriever, Pluto.</p>
+                            <p>He is the boy I live for and the face I wait to see at the end of the day. No matter how intense the world gets, his excitement, his energy, and that smile reset everything. He reminds me why balance matters, why presence matters, and why the small moments are always the most important.</p>
+                        </div>
+                    </section>
+
+                    <section class="interests-footer interests-reveal">
+                        <p>Everything I am at work is shaped by who I am outside of it.</p>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
