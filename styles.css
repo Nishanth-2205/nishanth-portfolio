@@ -1700,6 +1700,14 @@ body {
     text-decoration: underline;
 }
 
+.project-note {
+    margin-top: 10px;
+    font-family: 'Space Grotesk', 'Segoe UI', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    color: #6B7078;
+}
+
 .interest-tags {
     display: flex;
     flex-wrap: wrap;
