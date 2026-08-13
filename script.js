@@ -1,454 +1,903 @@
-// ===== SCROLL TO TOP FUNCTIONALITY =====
-const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+(function () {
+    const board = document.getElementById("portfolioBoard");
+    const wireLayer = document.getElementById("wireLayer");
+    const progressBar = document.getElementById("progressBar");
+    const siteHeader = document.querySelector(".site-header");
+    const navToggle = document.querySelector(".nav-toggle");
+    const primaryNav = document.getElementById("primaryNav");
+    const navLinks = Array.from(document.querySelectorAll("[data-nav-link]"));
+    const themeRoot = document.documentElement;
+    const themeToggle = document.querySelector("[data-theme-toggle]");
+    const themeToggleText = themeToggle ? themeToggle.querySelector(".theme-toggle-text") : null;
+    const themeCallout = document.querySelector("[data-mode-callout]");
+    const darkAudio = document.querySelector("[data-dark-audio]");
+    const audioToggle = document.querySelector("[data-audio-toggle]");
+    const audioToggleText = audioToggle ? audioToggle.querySelector(".audio-toggle-text") : null;
+    const modeCopyTargets = Array.from(document.querySelectorAll("[data-dark-text]"));
+    const notes = Array.from(document.querySelectorAll(".post-it"));
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const compactNavigation = window.matchMedia("(max-width: 1024px)");
+    const sectionTargets = Array.from(new Map(navLinks
+        .filter((link) => link.hash && document.querySelector(link.hash))
+        .map((link) => [link.hash, {
+            id: link.hash.slice(1),
+            target: document.querySelector(link.hash)
+        }])
+    ).values());
 
-function scrollToTop() {
-    window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-    });
-}
+    const wires = [
+        ["about", "education"],
+        ["education", "experience"],
+        ["about", "projects"],
+        ["projects", "certifications"],
+        ["projects", "publications"],
+        ["experience", "certifications"],
+        ["experience", "community"],
+        ["certifications", "publications"],
+        ["projects", "life"],
+        ["publications", "contact"],
+        ["community", "contact"],
+        ["life", "contact"]
+    ];
 
-// Show/hide scroll to top button
-window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 300) {
-        scrollToTopBtn.classList.add('visible');
-    } else {
-        scrollToTopBtn.classList.remove('visible');
+    let activePopover = null;
+    let fallTimer = null;
+    let resizeFrame = 0;
+    let navAutoHideTimer = 0;
+    let navOpenedAtScrollY = 0;
+    let activeNavId = "";
+    let hapticsReady = false;
+    let lastHapticAt = 0;
+    let themeCopyTargets = modeCopyTargets;
+    let themeApplyTimer = 0;
+    let themeTransitionTimer = 0;
+    let themeCalloutTimer = 0;
+    let audioFadeFrame = 0;
+    let audioMuted = false;
+    let audioRequested = false;
+    let audioNeedsGesture = false;
+    const darkAudioTargetVolume = 0.24;
+
+    const casualHighlights = [
+        "five tools are doing one job",
+        "final_final_v7",
+        "history, politics",
+        "evidence wall",
+        "messy systems",
+        "Suspicious, but useful",
+        "lore board",
+        "group chat to survive",
+        "stakeholder and stack trace",
+        "legacy system",
+        "Legacy systems",
+        "why though",
+        "training montage",
+        "support ticket",
+        "ancient spells",
+        "business users",
+        "main-character energy",
+        "process map",
+        "public speaking",
+        "different hat",
+        "side quests",
+        "Side quests",
+        "manual work",
+        "farewell cake",
+        "psychological thriller",
+        "dashboard pretending to be destiny",
+        "not a forecasting method",
+        "people are complicated",
+        "boss level",
+        "boss and did not rage quit",
+        "tabs",
+        "research arc unlocked",
+        "academic lore",
+        "main character",
+        "dashboard",
+        "last-minute panic",
+        "walking LinkedIn post",
+        "quick sync",
+        "workflow is held together",
+        "one person named",
+        "before that person goes on vacation",
+        "Proof I fought the documentation boss",
+        "the actual plot",
+        "trap",
+        "the research side quest became canon",
+        "not every useful system has an API",
+        "anti-burnout stack",
+        "Morse code does not"
+    ];
+
+    function clamp(value, min, max) {
+        return Math.min(Math.max(value, min), max);
     }
-    
-    // Add navbar shadow on scroll
-    const navbar = document.querySelector('.navbar');
-    if (window.pageYOffset > 10) {
-        navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)';
-    } else {
-        navbar.style.boxShadow = 'none';
+
+    function escapeHtml(value) {
+        return value.replace(/[&<>"']/g, (character) => ({
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            "\"": "&quot;",
+            "'": "&#39;"
+        }[character]));
     }
-});
 
-scrollToTopBtn.addEventListener('click', scrollToTop);
+    function escapeRegExp(value) {
+        return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    }
 
-// ===== MODAL MANAGEMENT =====
-const modalTriggers = document.querySelectorAll('[data-modal]');
-const modals = document.querySelectorAll('.modal');
-const closeButtons = document.querySelectorAll('.modal-close');
-const aboutButton = document.querySelector('.about-button');
+    function highlightCasualPhrases(text) {
+        let html = escapeHtml(text);
 
-// Open modal from card click
-modalTriggers.forEach(trigger => {
-    trigger.addEventListener('click', () => {
-        const modalId = trigger.getAttribute('data-modal') + '-modal';
-        const modal = document.getElementById(modalId);
-        if (modal) {
-            openModal(modal);
-        }
-    });
-});
+        casualHighlights.forEach((phrase) => {
+            const safePhrase = escapeHtml(phrase);
+            const expression = new RegExp(escapeRegExp(safePhrase), "gi");
+            html = html.replace(expression, (match) => `<span class="casual-highlight">${match}</span>`);
+        });
 
-// Open "More About Me" modal from the section button
-if (aboutButton) {
-    aboutButton.addEventListener('click', () => {
-        const modal = document.getElementById('more-about-modal');
-        if (modal) {
-            openModal(modal);
-        }
-    });
-}
+        return html;
+    }
 
-function openModal(modal) {
-    modal.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-}
+    function isDarkTheme() {
+        return themeRoot.classList.contains("theme-dark");
+    }
 
-function closeModal(modal) {
-    modal.classList.remove('active');
-    document.body.style.overflow = 'auto';
-    document.documentElement.style.overflow = 'auto';
-}
+    function setModeCopy(scope) {
+        const targets = scope
+            ? Array.from(scope.querySelectorAll("[data-dark-text]"))
+            : themeCopyTargets;
+        const dark = isDarkTheme();
 
-// Close modal functionality
-closeButtons.forEach(button => {
-    button.addEventListener('click', (e) => {
-        const modal = e.target.closest('.modal');
-        if (modal) {
-            closeModal(modal);
-        }
-    });
-});
+        targets.forEach((element) => {
+            if (!element.dataset.lightHtml) {
+                element.dataset.lightHtml = element.innerHTML;
+            }
 
-// Close modal when clicking outside the content
-modals.forEach(modal => {
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeModal(modal);
-        }
-    });
-});
-
-// Close modal with Escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        modals.forEach(modal => {
-            if (modal.classList.contains('active')) {
-                closeModal(modal);
+            if (dark) {
+                element.innerHTML = highlightCasualPhrases(element.dataset.darkText);
+            } else {
+                element.innerHTML = element.dataset.lightHtml;
             }
         });
     }
-});
 
-// ===== NAVBAR INTERACTIONS =====
-const navbarName = document.querySelector('.navbar-name');
-if (navbarName) {
-    navbarName.style.cursor = 'pointer';
-}
-
-// ===== NAVBAR 'About' opens a short About modal =====
-const navAboutBtn = document.getElementById('navAboutBtn');
-if (navAboutBtn) {
-    navAboutBtn.addEventListener('click', (e) => {
-        const modal = document.getElementById('about-modal');
-        if (modal) {
-            openModal(modal);
-        }
-    });
-}
-
-// ===== INTERSECTION OBSERVER FOR SCROLL ANIMATIONS =====
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -100px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-        }
-    });
-}, observerOptions);
-
-// Observe cards for animation
-document.querySelectorAll('.card').forEach(card => {
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(30px)';
-    card.style.transition = 'opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
-    observer.observe(card);
-});
-
-// Reveal Life & Interests sections on scroll
-if ('IntersectionObserver' in window) {
-    const interestObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('in-view');
-            }
-        });
-    }, { threshold: 0.15 });
-
-    document.querySelectorAll('.interests-reveal').forEach(section => {
-        interestObserver.observe(section);
-    });
-}
-
-// Interest carousels: arrows, dots, swipe, keyboard
-document.querySelectorAll('.interest-carousel').forEach((carousel) => {
-    const cards = Array.from(carousel.querySelectorAll('.carousel-card'));
-    if (!cards.length) {
-        return;
-    }
-
-    let index = 0;
-    const prevBtn = carousel.querySelector('.carousel-control.prev');
-    const nextBtn = carousel.querySelector('.carousel-control.next');
-
-    const dotsWrap = document.createElement('div');
-    dotsWrap.className = 'carousel-dots';
-    dotsWrap.setAttribute('role', 'tablist');
-    dotsWrap.setAttribute('aria-label', `${carousel.getAttribute('aria-label')} pagination`);
-    carousel.appendChild(dotsWrap);
-
-    const dots = cards.map((card, dotIndex) => {
-        const dot = document.createElement('button');
-        dot.type = 'button';
-        dot.className = 'carousel-dot';
-        dot.setAttribute('aria-label', `Go to image ${dotIndex + 1}`);
-        dot.addEventListener('click', () => {
-            index = dotIndex;
-            updateCarousel();
-        });
-        dotsWrap.appendChild(dot);
-        return dot;
-    });
-
-    const updateCarousel = () => {
-        cards.forEach((card, cardIndex) => {
-            const pos = (cardIndex - index + cards.length) % cards.length;
-            card.dataset.pos = pos;
-        });
-        dots.forEach((dot, dotIndex) => {
-            dot.classList.toggle('is-active', dotIndex === index);
-        });
-    };
-
-    const goNext = () => {
-        index = (index + 1) % cards.length;
-        updateCarousel();
-    };
-
-    const goPrev = () => {
-        index = (index - 1 + cards.length) % cards.length;
-        updateCarousel();
-    };
-
-    if (nextBtn) {
-        nextBtn.addEventListener('click', goNext);
-    }
-
-    if (prevBtn) {
-        prevBtn.addEventListener('click', goPrev);
-    }
-
-    carousel.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowRight') {
-            e.preventDefault();
-            goNext();
-        }
-        if (e.key === 'ArrowLeft') {
-            e.preventDefault();
-            goPrev();
-        }
-    });
-
-    let startX = 0;
-    let startY = 0;
-    let isSwiping = false;
-
-    carousel.addEventListener('touchstart', (e) => {
-        const touch = e.touches[0];
-        startX = touch.clientX;
-        startY = touch.clientY;
-        isSwiping = false;
-    }, { passive: true });
-
-    carousel.addEventListener('touchmove', (e) => {
-        const touch = e.touches[0];
-        const deltaX = touch.clientX - startX;
-        const deltaY = touch.clientY - startY;
-        if (Math.abs(deltaX) > 8 && Math.abs(deltaX) > Math.abs(deltaY)) {
-            isSwiping = true;
-            e.preventDefault();
-        }
-    }, { passive: false });
-
-    carousel.addEventListener('touchend', (e) => {
-        if (!isSwiping) {
+    function updateThemeToggle() {
+        if (!themeToggle) {
             return;
         }
-        const touch = e.changedTouches[0];
-        const deltaX = touch.clientX - startX;
-        if (deltaX < -40) {
-            goNext();
-        }
-        if (deltaX > 40) {
-            goPrev();
-        }
-    });
 
-    updateCarousel();
-});
+        const dark = isDarkTheme();
+        themeToggle.setAttribute("aria-pressed", String(dark));
+        themeToggle.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
 
-// Reveal Life & Interests background on scroll (mobile-friendly, no hover required)
-if (aboutButton && 'IntersectionObserver' in window) {
-    const aboutObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                aboutButton.classList.add('is-visible');
+        if (themeToggleText) {
+            themeToggleText.textContent = dark ? "Light Mode" : "Dark Mode";
+        }
+    }
+
+    function showThemeCallout(duration) {
+        if (!themeCallout) {
+            return;
+        }
+
+        window.clearTimeout(themeCalloutTimer);
+        themeCallout.classList.add("is-visible");
+        themeCalloutTimer = window.setTimeout(() => {
+            themeCallout.classList.remove("is-visible");
+        }, duration);
+    }
+
+    function storeThemePreference(dark) {
+        try {
+            localStorage.setItem("portfolioTheme", dark ? "dark" : "light");
+        } catch (error) {
+            return;
+        }
+    }
+
+    function loadAudioPreference() {
+        try {
+            audioMuted = localStorage.getItem("portfolioDarkAudioMuted") === "true";
+        } catch (error) {
+            audioMuted = false;
+        }
+    }
+
+    function storeAudioPreference() {
+        try {
+            localStorage.setItem("portfolioDarkAudioMuted", audioMuted ? "true" : "false");
+        } catch (error) {
+            return;
+        }
+    }
+
+    function updateAudioToggle() {
+        if (!audioToggle) {
+            return;
+        }
+
+        const dark = isDarkTheme();
+        const waiting = dark && !audioMuted && audioNeedsGesture;
+        audioToggle.classList.toggle("is-muted", audioMuted);
+        audioToggle.classList.toggle("is-waiting", waiting);
+        audioToggle.setAttribute("aria-hidden", String(!dark));
+        audioToggle.setAttribute("aria-pressed", String(dark && !audioMuted && !waiting));
+        audioToggle.setAttribute("aria-label", waiting ? "Play dark mode music" : (audioMuted ? "Unmute dark mode music" : "Mute dark mode music"));
+
+        if (audioToggleText) {
+            audioToggleText.textContent = waiting ? "Play" : (audioMuted ? "Unmute" : "Mute");
+        }
+    }
+
+    function fadeDarkAudio(targetVolume, pauseAfterFade) {
+        if (!darkAudio) {
+            return;
+        }
+
+        window.cancelAnimationFrame(audioFadeFrame);
+        const startVolume = darkAudio.volume;
+        const duration = reducedMotion ? 0 : 1200;
+        const startTime = performance.now();
+
+        const finish = () => {
+            darkAudio.volume = targetVolume;
+            if (pauseAfterFade && targetVolume === 0) {
+                darkAudio.pause();
+            }
+            updateAudioToggle();
+        };
+
+        if (!duration) {
+            finish();
+            return;
+        }
+
+        const step = (now) => {
+            const progress = clamp((now - startTime) / duration, 0, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            darkAudio.volume = startVolume + (targetVolume - startVolume) * eased;
+
+            if (progress < 1) {
+                audioFadeFrame = window.requestAnimationFrame(step);
+                return;
+            }
+
+            finish();
+        };
+
+        audioFadeFrame = window.requestAnimationFrame(step);
+    }
+
+    function primeDarkAudio() {
+        if (!darkAudio || audioMuted) {
+            return;
+        }
+
+        audioRequested = true;
+        audioNeedsGesture = false;
+        darkAudio.loop = true;
+        darkAudio.volume = 0;
+
+        const playAttempt = darkAudio.play();
+        if (playAttempt && typeof playAttempt.catch === "function") {
+            playAttempt.catch(() => {
+                audioRequested = false;
+                audioNeedsGesture = isDarkTheme();
+                updateAudioToggle();
+            });
+        }
+    }
+
+    function syncDarkAudio(fade) {
+        if (!darkAudio) {
+            return;
+        }
+
+        const dark = isDarkTheme();
+        if (!dark || audioMuted) {
+            audioNeedsGesture = false;
+            fadeDarkAudio(0, true);
+            updateAudioToggle();
+            return;
+        }
+
+        if (!audioRequested && darkAudio.paused) {
+            audioNeedsGesture = true;
+            updateAudioToggle();
+            return;
+        }
+
+        const playAttempt = darkAudio.paused ? darkAudio.play() : Promise.resolve();
+        if (playAttempt && typeof playAttempt.then === "function") {
+            playAttempt
+                .then(() => {
+                    audioNeedsGesture = false;
+                    if (fade) {
+                        fadeDarkAudio(darkAudioTargetVolume, false);
+                    } else {
+                        darkAudio.volume = darkAudioTargetVolume;
+                        updateAudioToggle();
+                    }
+                })
+                .catch(() => {
+                    audioRequested = false;
+                    audioNeedsGesture = true;
+                    updateAudioToggle();
+                });
+            return;
+        }
+
+        if (fade) {
+            fadeDarkAudio(darkAudioTargetVolume, false);
+        } else {
+            darkAudio.volume = darkAudioTargetVolume;
+            updateAudioToggle();
+        }
+    }
+
+    function toggleDarkAudioMute() {
+        if (!darkAudio) {
+            return;
+        }
+
+        if (audioMuted || audioNeedsGesture) {
+            audioMuted = false;
+            audioNeedsGesture = false;
+            storeAudioPreference();
+            primeDarkAudio();
+            syncDarkAudio(true);
+            return;
+        }
+
+        audioMuted = true;
+        storeAudioPreference();
+        syncDarkAudio(true);
+    }
+
+    function setTheme(dark, animate) {
+        if (isDarkTheme() === dark && !themeRoot.classList.contains("theme-changing")) {
+            updateThemeToggle();
+            setModeCopy();
+            syncDarkAudio(false);
+            return;
+        }
+
+        window.clearTimeout(themeApplyTimer);
+        window.clearTimeout(themeTransitionTimer);
+        themeRoot.classList.remove("theme-changing", "theme-to-dark", "theme-to-light");
+
+        if (dark && !audioMuted) {
+            primeDarkAudio();
+        }
+
+        const applyTheme = () => {
+            themeRoot.classList.toggle("theme-dark", dark);
+            storeThemePreference(dark);
+            updateThemeToggle();
+            setModeCopy();
+            syncDarkAudio(true);
+            layoutNotes(false);
+            drawWires();
+            showThemeCallout(5000);
+        };
+
+        if (!animate || reducedMotion) {
+            applyTheme();
+            return;
+        }
+
+        themeRoot.classList.add("theme-changing", dark ? "theme-to-dark" : "theme-to-light");
+        themeApplyTimer = window.setTimeout(applyTheme, 250);
+        themeTransitionTimer = window.setTimeout(() => {
+            themeRoot.classList.remove("theme-changing", "theme-to-dark", "theme-to-light");
+        }, 880);
+    }
+
+    function setNavOpen(open) {
+        if (!siteHeader || !navToggle) {
+            return;
+        }
+
+        window.clearTimeout(navAutoHideTimer);
+        siteHeader.classList.toggle("is-nav-open", open);
+        navToggle.setAttribute("aria-expanded", String(open));
+
+        if (open && compactNavigation.matches) {
+            navOpenedAtScrollY = window.scrollY;
+            centerActiveRailLink();
+            navAutoHideTimer = window.setTimeout(() => setNavOpen(false), 6000);
+        }
+    }
+
+    function centerActiveRailLink() {
+        if (!primaryNav || !compactNavigation.matches) {
+            return;
+        }
+
+        const activeLink = primaryNav.querySelector(".is-active");
+        if (!activeLink) {
+            return;
+        }
+
+        const targetTop = activeLink.offsetTop - (primaryNav.clientHeight - activeLink.offsetHeight) / 2;
+        primaryNav.scrollTo({
+            top: Math.max(0, targetTop),
+            behavior: reducedMotion ? "auto" : "smooth"
+        });
+    }
+
+    function triggerSectionFeedback(activeLink) {
+        if (!activeLink || !compactNavigation.matches) {
+            return;
+        }
+
+        activeLink.classList.remove("section-pulse");
+        requestAnimationFrame(() => activeLink.classList.add("section-pulse"));
+        window.setTimeout(() => activeLink.classList.remove("section-pulse"), 460);
+
+        const now = Date.now();
+        if (hapticsReady && !reducedMotion && "vibrate" in navigator && now - lastHapticAt > 320) {
+            navigator.vibrate(8);
+            lastHapticAt = now;
+        }
+    }
+
+    function updateActiveNavigation() {
+        if (!navLinks.length || !sectionTargets.length) {
+            return;
+        }
+
+        const scrollPosition = window.scrollY + 132;
+        let activeId = "";
+
+        sectionTargets.forEach(({ id, target }) => {
+            const targetTop = target.getBoundingClientRect().top + window.scrollY;
+            if (targetTop <= scrollPosition) {
+                activeId = id;
+            }
+        });
+
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) {
+            activeId = "contact";
+        }
+
+        let activeLink = null;
+        navLinks.forEach((link) => {
+            const isActive = link.hash === `#${activeId}`;
+            link.classList.toggle("is-active", isActive);
+            if (isActive) {
+                link.setAttribute("aria-current", "location");
+                activeLink = link;
             } else {
-                aboutButton.classList.remove('is-visible');
+                link.removeAttribute("aria-current");
             }
         });
-    }, { threshold: 0.4 });
-    aboutObserver.observe(aboutButton);
-}
 
-// ===== 3D CARD HOVER EFFECT =====
-document.querySelectorAll('.card').forEach((card, index) => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = (e.clientX - rect.left) / rect.width;
-        const y = (e.clientY - rect.top) / rect.height;
-
-        const rotateX = (y - 0.5) * 8;
-        const rotateY = (x - 0.5) * -8;
-
-        // Apply 3D tilt + slight lift while hovering
-        card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-18px)`;
-    });
-
-    // When the pointer leaves, smoothly return to the resting state (down)
-    card.addEventListener('mouseleave', () => {
-        // Clear inline transform to allow CSS default (no transform) to take over
-        // Setting to a neutral transform ensures a smooth transition back to rest
-        card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg) translateY(0px)';
-    });
-});
-
-// ===== RIPPLE EFFECT ON BUTTON CLICK =====
-function addRippleEffect(element) {
-    return function(e) {
-        const ripple = document.createElement('span');
-        const rect = element.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
-        
-        ripple.style.position = 'absolute';
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.background = 'rgba(255, 255, 255, 0.6)';
-        ripple.style.borderRadius = '50%';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
-        ripple.style.pointerEvents = 'none';
-        ripple.style.transform = 'scale(0)';
-        ripple.style.animation = 'ripple 0.6s ease-out';
-        
-        element.style.position = 'relative';
-        element.appendChild(ripple);
-        
-        setTimeout(() => ripple.remove(), 600);
-    };
-}
-
-// Add ripple effect to cards
-document.querySelectorAll('.card').forEach(card => {
-    card.addEventListener('click', addRippleEffect(card));
-});
-
-// Add ripple effect to buttons
-document.querySelectorAll('.connect-btn').forEach(btn => {
-    btn.addEventListener('click', addRippleEffect(btn));
-});
-
-// ===== ADD RIPPLE ANIMATION TO CSS =====
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes ripple {
-        to {
-            transform: scale(4);
-            opacity: 0;
-        }
-    }
-    
-    @keyframes slideInUp {
-        from {
-            opacity: 0;
-            transform: translateY(50px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-`;
-document.head.appendChild(style);
-
-// ===== PARALLAX EFFECT FOR ORBS =====
-window.addEventListener('mousemove', (e) => {
-    const orbs = document.querySelectorAll('.gradient-orb');
-    orbs.forEach(orb => {
-        const x = (window.innerWidth - e.clientX * 2) * 0.02;
-        const y = (window.innerHeight - e.clientY * 2) * 0.02;
-        orb.style.transform = `translate(${x}px, ${y}px)`;
-    });
-});
-
-// ===== STAGGER ANIMATION FOR MODAL ITEMS =====
-function staggerItems(modal) {
-    const items = modal.querySelectorAll('.education-item, .cert-item, .cert-hex, .project-item, .publication-item, .volunteer-item, .work-card, .work-section, .volunteer-card, .volunteer-stat');
-    items.forEach((item, index) => {
-        item.style.opacity = '0';
-        item.style.animation = `fadeInUp 0.6s ease-out ${index * 0.08}s forwards`;
-    });
-}
-
-
-// Call stagger on modal open
-modals.forEach(modal => {
-    const observer = new MutationObserver(() => {
-        if (modal.classList.contains('active')) {
-            requestAnimationFrame(() => staggerItems(modal));
-        }
-    });
-    observer.observe(modal, { attributes: true, attributeFilter: ['class'] });
-});
-
-// ===== PAGE LOAD ANIMATION =====
-window.addEventListener('load', () => {
-    document.body.style.opacity = '1';
-    document.documentElement.style.opacity = '1';
-});
-
-// ===== SMOOTH SCROLL BEHAVIOR FOR ALL ANCHOR LINKS =====
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        if (href !== '#') {
-            e.preventDefault();
-            const target = document.querySelector(href);
-            if (target) {
-                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (activeId && activeId !== activeNavId) {
+            activeNavId = activeId;
+            triggerSectionFeedback(activeLink);
+            if (siteHeader && siteHeader.classList.contains("is-nav-open")) {
+                centerActiveRailLink();
             }
         }
-    });
-});
+    }
 
-// ===== PERFORMANCE OPTIMIZATION =====
-if ('IntersectionObserver' in window) {
-    // Lazy load images if added in future
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                if (img.dataset.src) {
-                    img.src = img.dataset.src;
-                    img.removeAttribute('data-src');
+    function updatePageChrome() {
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = total > 0 ? (window.scrollY / total) * 100 : 0;
+        progressBar.style.width = `${progress}%`;
+
+        if (siteHeader) {
+            siteHeader.classList.toggle("is-scrolled", window.scrollY > 8);
+        }
+
+        updateActiveNavigation();
+    }
+
+    function layoutNotes(force) {
+        if (!board) {
+            return;
+        }
+
+        const rect = board.getBoundingClientRect();
+        const mobile = window.innerWidth < 720;
+        const narrowMobile = window.innerWidth <= 540;
+        const tablet = window.innerWidth >= 720 && window.innerWidth <= 1024;
+
+        notes.forEach((note, index) => {
+            if (note.dataset.userMoved === "true" && !force) {
+                return;
+            }
+
+            let x = Number(note.dataset.x);
+            let y = Number(note.dataset.y);
+
+            let left;
+            let top;
+
+            if (mobile && narrowMobile) {
+                const availableHeight = Math.max(0, rect.height - note.offsetHeight - 24);
+                const step = notes.length > 1 ? availableHeight / (notes.length - 1) : 0;
+                left = clamp((rect.width - note.offsetWidth) / 2, 14, rect.width - note.offsetWidth - 14);
+                top = clamp(12 + step * index, 14, rect.height - note.offsetHeight - 14);
+            } else if (mobile) {
+                const col = index % 2;
+                const row = Math.floor(index / 2);
+                x = col === 0 ? 7 : 54;
+                y = 4 + row * 20;
+            } else if (tablet) {
+                const col = index % 3;
+                const row = Math.floor(index / 3);
+                x = 6 + col * 31;
+                y = 6 + row * 28;
+            }
+
+            if (left === undefined || top === undefined) {
+                left = clamp((x / 100) * rect.width, 16, rect.width - note.offsetWidth - 16);
+                top = clamp((y / 100) * rect.height, 16, rect.height - note.offsetHeight - 16);
+            }
+
+            note.style.left = `${left}px`;
+            note.style.top = `${top}px`;
+        });
+
+        drawWires();
+    }
+
+    function noteCenter(note) {
+        const boardRect = board.getBoundingClientRect();
+        const noteRect = note.getBoundingClientRect();
+        return {
+            x: noteRect.left - boardRect.left + noteRect.width / 2,
+            y: noteRect.top - boardRect.top + noteRect.height / 2
+        };
+    }
+
+    function drawWires() {
+        if (!board || !wireLayer) {
+            return;
+        }
+
+        const rect = board.getBoundingClientRect();
+        wireLayer.setAttribute("viewBox", `0 0 ${rect.width} ${rect.height}`);
+        wireLayer.innerHTML = "";
+
+        wires.forEach(([from, to]) => {
+            const fromNote = document.querySelector(`[data-note="${from}"]`);
+            const toNote = document.querySelector(`[data-note="${to}"]`);
+            if (!fromNote || !toNote) {
+                return;
+            }
+
+            const start = noteCenter(fromNote);
+            const end = noteCenter(toNote);
+            const midX = (start.x + end.x) / 2;
+            const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            path.setAttribute("d", `M ${start.x} ${start.y} C ${midX} ${start.y}, ${midX} ${end.y}, ${end.x} ${end.y}`);
+            wireLayer.appendChild(path);
+        });
+    }
+
+    function closePopover(skipFall) {
+        if (!activePopover) {
+            return;
+        }
+
+        clearTimeout(fallTimer);
+        const popover = activePopover;
+        activePopover = null;
+
+        if (skipFall || reducedMotion) {
+            popover.remove();
+            document.body.classList.remove("detail-open");
+            return;
+        }
+
+        popover.classList.add("is-falling");
+        window.setTimeout(() => {
+            popover.remove();
+            document.body.classList.remove("detail-open");
+        }, 920);
+    }
+
+    function openPopover(noteName) {
+        const template = document.getElementById(`detail-${noteName}`);
+        if (!template) {
+            return;
+        }
+
+        closePopover(true);
+
+        const popover = document.createElement("aside");
+        popover.className = "detail-popover";
+        popover.setAttribute("role", "dialog");
+        popover.setAttribute("aria-live", "polite");
+        popover.innerHTML = '<button class="detail-close" type="button" aria-label="Close detail">&times;</button>';
+        popover.appendChild(template.content.cloneNode(true));
+        document.body.appendChild(popover);
+        document.body.classList.add("detail-open");
+        setModeCopy(popover);
+
+        activePopover = popover;
+        popover.querySelector(".detail-close").addEventListener("click", () => closePopover(false));
+        popover.querySelectorAll("a[href^='#']").forEach((link) => {
+            link.addEventListener("click", () => closePopover(true));
+        });
+
+        fallTimer = window.setTimeout(() => closePopover(false), 8000);
+    }
+
+    notes.forEach((note) => {
+        let pointerId = null;
+        let startX = 0;
+        let startY = 0;
+        let originLeft = 0;
+        let originTop = 0;
+        let moved = false;
+
+        note.addEventListener("pointerdown", (event) => {
+            if (event.button !== undefined && event.button !== 0) {
+                return;
+            }
+
+            pointerId = event.pointerId;
+            startX = event.clientX;
+            startY = event.clientY;
+            originLeft = note.offsetLeft;
+            originTop = note.offsetTop;
+            moved = false;
+            note.setPointerCapture(pointerId);
+            note.classList.add("is-dragging");
+            note.setAttribute("aria-grabbed", "true");
+        });
+
+        note.addEventListener("pointermove", (event) => {
+            if (pointerId !== event.pointerId) {
+                return;
+            }
+
+            const dx = event.clientX - startX;
+            const dy = event.clientY - startY;
+            if (Math.abs(dx) > 4 || Math.abs(dy) > 4) {
+                moved = true;
+            }
+
+            const rect = board.getBoundingClientRect();
+            const left = clamp(originLeft + dx, 12, rect.width - note.offsetWidth - 12);
+            const top = clamp(originTop + dy, 12, rect.height - note.offsetHeight - 12);
+            note.style.left = `${left}px`;
+            note.style.top = `${top}px`;
+            note.dataset.userMoved = "true";
+            drawWires();
+        });
+
+        note.addEventListener("pointerup", (event) => {
+            if (pointerId !== event.pointerId) {
+                return;
+            }
+
+            note.releasePointerCapture(pointerId);
+            note.classList.remove("is-dragging");
+            note.setAttribute("aria-grabbed", "false");
+            pointerId = null;
+
+            if (!moved) {
+                openPopover(note.dataset.note);
+            }
+        });
+
+        note.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openPopover(note.dataset.note);
+            }
+        });
+    });
+
+    if (navToggle && siteHeader) {
+        navToggle.addEventListener("click", () => {
+            const open = !siteHeader.classList.contains("is-nav-open");
+            setNavOpen(open);
+        });
+    }
+
+    if (themeToggle) {
+        themeToggle.addEventListener("click", () => {
+            hapticsReady = true;
+            setTheme(!isDarkTheme(), true);
+        });
+    }
+
+    if (audioToggle) {
+        audioToggle.addEventListener("click", () => {
+            hapticsReady = true;
+            toggleDarkAudioMute();
+        });
+    }
+
+    navLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+            triggerSectionFeedback(link);
+            setNavOpen(false);
+        });
+    });
+
+    document.addEventListener("pointerdown", () => {
+        hapticsReady = true;
+    }, { once: true, passive: true });
+
+    if (primaryNav) {
+        primaryNav.addEventListener("pointerdown", () => {
+            window.clearTimeout(navAutoHideTimer);
+        }, { passive: true });
+
+        primaryNav.addEventListener("pointerup", () => {
+            if (siteHeader && siteHeader.classList.contains("is-nav-open") && compactNavigation.matches) {
+                navAutoHideTimer = window.setTimeout(() => setNavOpen(false), 6000);
+            }
+        }, { passive: true });
+    }
+
+    document.addEventListener("click", (event) => {
+        if (!siteHeader || !siteHeader.classList.contains("is-nav-open")) {
+            return;
+        }
+
+        if (!siteHeader.contains(event.target)) {
+            setNavOpen(false);
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            closePopover(true);
+            setNavOpen(false);
+        }
+    });
+
+    document.querySelectorAll(".education-details").forEach((details) => {
+        const summary = details.querySelector("summary");
+        const body = details.querySelector(".education-detail-body");
+        if (!summary || !body || reducedMotion) {
+            return;
+        }
+
+        body.style.height = details.open ? "auto" : "0px";
+        body.style.opacity = details.open ? "1" : "0";
+
+        summary.addEventListener("click", (event) => {
+            event.preventDefault();
+            if (details.dataset.animating === "true") {
+                return;
+            }
+
+            if (details.open) {
+                closeEducationDetails(details, body);
+            } else {
+                openEducationDetails(details, body);
+            }
+        });
+    });
+
+    function openEducationDetails(details, body) {
+        details.open = true;
+        body.style.height = "0px";
+        body.style.opacity = "0";
+        body.style.transition = "none";
+
+        requestAnimationFrame(() => {
+            body.style.transition = "height 360ms cubic-bezier(0.2, 0.8, 0.2, 1), opacity 240ms ease";
+            body.style.height = `${body.scrollHeight}px`;
+            body.style.opacity = "1";
+            details.dataset.animating = "true";
+        });
+
+        body.addEventListener("transitionend", function handleOpen(event) {
+            if (event.propertyName !== "height") {
+                return;
+            }
+            body.style.height = "auto";
+            body.style.transition = "";
+            delete details.dataset.animating;
+            body.removeEventListener("transitionend", handleOpen);
+        });
+    }
+
+    function closeEducationDetails(details, body) {
+        body.style.height = `${body.scrollHeight}px`;
+        body.style.opacity = "1";
+        body.style.transition = "none";
+
+        requestAnimationFrame(() => {
+            body.style.transition = "height 320ms cubic-bezier(0.4, 0, 0.2, 1), opacity 220ms ease";
+            body.style.height = "0px";
+            body.style.opacity = "0";
+            details.dataset.animating = "true";
+        });
+
+        body.addEventListener("transitionend", function handleClose(event) {
+            if (event.propertyName !== "height") {
+                return;
+            }
+            details.open = false;
+            body.style.transition = "";
+            delete details.dataset.animating;
+            body.removeEventListener("transitionend", handleClose);
+        });
+    }
+
+    window.addEventListener("resize", () => {
+        cancelAnimationFrame(resizeFrame);
+        resizeFrame = requestAnimationFrame(() => {
+            if (window.innerWidth > 1024) {
+                setNavOpen(false);
+            }
+            layoutNotes(false);
+            drawWires();
+            updateActiveNavigation();
+        });
+    });
+
+    window.addEventListener("scroll", () => {
+        updatePageChrome();
+        if (compactNavigation.matches && siteHeader && siteHeader.classList.contains("is-nav-open") && Math.abs(window.scrollY - navOpenedAtScrollY) > 6) {
+            setNavOpen(false);
+        }
+    }, { passive: true });
+
+    if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    observer.unobserve(entry.target);
                 }
-                imageObserver.unobserve(img);
-            }
-        });
-    });
+            });
+        }, { threshold: 0.14, rootMargin: "0px 0px -80px 0px" });
 
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
-    });
-}
+        document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+    } else {
+        document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
+    }
 
-// ===== TRACK ACTIVE SECTION =====
-const sections = document.querySelectorAll('section');
-const navLinks = document.querySelectorAll('.navbar-link');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        
-        if (pageYOffset >= sectionTop - 200) {
-            current = section.getAttribute('id');
+    document.querySelectorAll("[data-carousel]").forEach((carousel) => {
+        const slides = Array.from(carousel.querySelectorAll("img"));
+        if (!slides.length) {
+            return;
         }
-    });
 
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        const href = link.getAttribute('href');
-        if (href && href.startsWith('#') && href.slice(1) === current) {
-            link.classList.add('active');
+        let index = 0;
+        slides[0].classList.add("is-active");
+
+        if (slides.length === 1 || reducedMotion) {
+            return;
         }
-    });
-});
 
-// ===== CONSOLE MESSAGE =====
-console.log('%cWelcome to Nishanth\'s Portfolio', 'font-size: 24px; font-weight: bold; color: #1a1a1a;');
-console.log('%cLet\'s create something amazing together! 🚀', 'font-size: 16px; color: #666666;');
+        window.setInterval(() => {
+            slides[index].classList.remove("is-active");
+            index = (index + 1) % slides.length;
+            slides[index].classList.add("is-active");
+        }, 3600);
+    });
+
+    window.addEventListener("load", () => {
+        layoutNotes(true);
+        updatePageChrome();
+    });
+
+    loadAudioPreference();
+    if (darkAudio) {
+        darkAudio.volume = 0;
+        darkAudio.loop = true;
+        audioNeedsGesture = isDarkTheme() && !audioMuted;
+    }
+
+    layoutNotes(true);
+    updateThemeToggle();
+    setModeCopy();
+    updateAudioToggle();
+    layoutNotes(true);
+    updatePageChrome();
+    window.setTimeout(() => showThemeCallout(5000), 900);
+})();

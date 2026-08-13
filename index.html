@@ -3,1128 +3,761 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nishanth Ganji - Portfolio</title>
+    <title>Nishanth Ganji - Interactive Portfolio Board</title>
+    <meta name="description" content="Interactive portfolio for Nishanth Ganji, MS Information Systems candidate and enterprise software engineer.">
+    <script>
+        (function () {
+            try {
+                if (localStorage.getItem("portfolioTheme") === "dark") {
+                    document.documentElement.classList.add("theme-dark");
+                }
+            } catch (error) {
+                document.documentElement.classList.remove("theme-dark");
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Fixed Navbar -->
-    <nav class="navbar">
-        <div class="navbar-container">
-            <div class="navbar-left">
-                <button class="navbar-name" onclick="scrollToTop()" title="Back to top">Nishanth Ganji</button>
-            </div>
-            <div class="navbar-right">
-                <a class="navbar-link" id="navAboutBtn" aria-haspopup="dialog">About me</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Scroll to Top Button -->
-    <button class="scroll-to-top" id="scrollToTopBtn" aria-label="Scroll to top" title="Back to top">
-        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M6 15l6-6 6 6"></path>
-        </svg>
+    <div class="progress-bar" id="progressBar" aria-hidden="true"></div>
+    <div class="theme-scrim" aria-hidden="true"></div>
+    <audio data-dark-audio src="music/the_mountain-sci-fi-512284.mp3" preload="auto" loop></audio>
+    <button class="audio-toggle" type="button" data-audio-toggle aria-pressed="true" aria-label="Mute dark mode music">
+        <span class="audio-toggle-meter" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="audio-toggle-text">Mute</span>
     </button>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Hero Section -->
-        <section class="hero-section">
-            <div class="hero-background">
-                <div class="gradient-orb orb-1"></div>
-                <div class="gradient-orb orb-2"></div>
-                <div class="gradient-orb orb-3"></div>
+    <header class="site-header">
+        <a class="brand" href="#top" aria-label="Nishanth Ganji home">
+            <span>Nishanth Ganji</span>
+        </a>
+        <button class="nav-toggle" type="button" aria-controls="primaryNav" aria-expanded="false">
+            <span class="nav-toggle-label">Menu</span>
+            <span class="nav-toggle-icon" aria-hidden="true"><span></span><span></span></span>
+        </button>
+        <nav class="nav-links" id="primaryNav" aria-label="Primary navigation">
+            <a href="#board" data-nav-link>Board</a>
+            <a href="#education" data-nav-link>Education</a>
+            <a href="#experience" data-nav-link>Experience</a>
+            <a href="#projects" data-nav-link>Projects</a>
+            <a href="#certifications" data-nav-link>Certifications</a>
+            <a href="#publications" data-nav-link>Publications</a>
+            <a href="#community" data-nav-link>Community</a>
+            <a href="#life" data-nav-link>Life</a>
+            <a class="nav-mobile-contact" href="#contact" data-nav-link>Contact</a>
+        </nav>
+        <div class="theme-switcher">
+            <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false" aria-label="Switch to dark mode">
+                <span class="theme-toggle-icon" aria-hidden="true"></span>
+                <span class="theme-toggle-text">Dark Mode</span>
+            </button>
+            <div class="mode-callout" data-mode-callout aria-hidden="true">
+                <span data-dark-text="Back to the version I can send to recruiters">Switch to the honest version</span>
             </div>
-            <div class="hero-text">
-                <div class="hero-quote-wrapper">
-                    <p class="hero-quote">
-                        Hey, I'm <span class="name-highlight">Nishanth</span>. I bridge engineering and business to build things that matter.
-                        <br><br>
-                        From Salesforce and cloud architecture to AI and data-driven systems, I design and ship products that help organizations grow, adapt, and stay ahead in a fast-moving digital world.
-                    </p>
+        </div>
+        <a class="nav-contact" href="#contact" data-nav-link>Contact</a>
+    </header>
+
+    <main id="top">
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="hero-copy">
+                <p class="eyebrow" data-dark-text="MSIS student &bull; systems translator &bull; spreadsheet therapist on call">MSIS student &bull; engineer &bull; systems thinker</p>
+                <h1 id="hero-title" data-dark-text="I make confused systems act like they had a plan all along.">I make systems make sense.</h1>
+                <p class="hero-lede" data-dark-text="Sometimes I code. Sometimes I map processes. Sometimes I ask why five tools are doing one job, then everyone looks away because we all know the answer is history, politics, and one spreadsheet named final_final_v7.">Sometimes that means code. Sometimes it means process maps, data, architecture diagrams, stakeholder conversations, or figuring out why five tools are doing the job of one.</p>
+                <div class="hero-actions" aria-label="Hero actions">
+                    <a class="primary-action" href="#board" data-dark-text="Open the evidence wall">Open the board</a>
+                    <a class="secondary-action" href="#projects" data-dark-text="Open the side quests">See projects</a>
                 </div>
-                <div class="hero-accent"></div>
+            </div>
+            <div class="hero-visual" aria-label="Portrait of Nishanth Ganji">
+                <img class="hero-photo hero-photo--light" src="images/nishanth-portrait.png" alt="Nishanth Ganji portrait">
+                <img class="hero-photo hero-photo--dark" src="images/ME%20DARK.png" alt="Dark mode portrait of Nishanth Ganji" aria-hidden="true">
             </div>
         </section>
 
-        <!-- Exploration Cards Section -->
-        <section class="cards-section">
-            <div class="cards-header">
-                <h2 class="section-title">Explore My Journey</h2>
-                <p class="section-subtitle">Click on any section to learn more</p>
+        <section class="board-section" id="board" aria-labelledby="board-title">
+            <div class="section-heading reveal">
+                <p class="eyebrow" data-dark-text="The map, because chaos deserves labels">Portfolio map</p>
+                <h2 id="board-title" data-dark-text="Everything is connected. Suspicious, but useful.">Operating board</h2>
+                <p data-dark-text="This is the quick map: school, work, projects, research, certs, community, and life outside the laptop. Basically the lore board, minus the dramatic string-and-pin energy.">Academic background, enterprise experience, projects, certifications, publications, community work, and interests arranged as a connected workspace.</p>
             </div>
-            <div class="cards-container">
-                <button class="card card-1" data-modal="education">
-                    <div class="card-bg"></div>
-                    <div class="card-overlay-skew" aria-hidden="true"></div>
-                    <div class="shine"><span aria-hidden="true"></span></div>
-                    <div class="card-content">
-                        <h3>Education</h3>
-                        <p>Academic Background</p>
-                        <div class="card-arrow">
-                            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 15l6-6 6 6"></path>
-                            </svg>
-                        </div>
-                    </div>
+
+            <div class="board" id="portfolioBoard" aria-label="Interactive portfolio board">
+                <svg class="wire-layer" id="wireLayer" aria-hidden="true"></svg>
+
+                <button class="post-it post-it--blue" data-note="about" data-x="9" data-y="10" aria-label="Open about summary">
+                    <span class="pin"></span>
+                    <span class="note-kicker">Profile</span>
+                    <strong>About</strong>
+                    <span data-dark-text="Business brain, tech hands, and a low tolerance for systems that need a group chat to survive.">Enterprise systems, AI, cloud, and product-minded execution.</span>
                 </button>
-                <button class="card card-2" data-modal="work-experience">
-                    <div class="card-bg"></div>
-                    <div class="card-overlay-skew" aria-hidden="true"></div>
-                    <div class="shine"><span aria-hidden="true"></span></div>
-                    <div class="card-content">
-                        <h3>Work Experience</h3>
-                        <p>Roles &amp; Impact</p>
-                        <div class="card-arrow">
-                            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 15l6-6 6 6"></path>
-                            </svg>
-                        </div>
-                    </div>
+
+                <button class="post-it post-it--yellow" data-note="education" data-x="38" data-y="8" aria-label="Open education summary">
+                    <span class="pin"></span>
+                    <span class="note-kicker">Education</span>
+                    <strong>IU + CBIT</strong>
+                    <span data-dark-text="Business-focused MSIS plus engineering roots. I can speak stakeholder and stack trace.">MS Information Systems and BE Information Technology.</span>
                 </button>
-                <button class="card card-3" data-modal="certifications">
-                    <div class="card-bg"></div>
-                    <div class="card-overlay-skew" aria-hidden="true"></div>
-                    <div class="shine"><span aria-hidden="true"></span></div>
-                    <div class="card-content">
-                        <h3>Certifications</h3>
-                        <p>Professional Credentials</p>
-                        <div class="card-arrow">
-                            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 15l6-6 6 6"></path>
-                            </svg>
-                        </div>
-                    </div>
+
+                <button class="post-it post-it--green" data-note="experience" data-x="66" data-y="12" aria-label="Open experience summary">
+                    <span class="pin"></span>
+                    <span class="note-kicker">Experience</span>
+                    <strong>Ascension + A360</strong>
+                    <span data-dark-text="Legacy systems, Salesforce, healthcare workflows, and many polite questions that start with why though.">Healthcare modernization and Salesforce engineering.</span>
                 </button>
-                <button class="card card-4" data-modal="projects">
-                    <div class="card-bg"></div>
-                    <div class="card-overlay-skew" aria-hidden="true"></div>
-                    <div class="shine"><span aria-hidden="true"></span></div>
-                    <div class="card-content">
-                        <h3>Academic Project Experience</h3>
-                        <p>Builds &amp; Impact</p>
-                        <div class="card-arrow">
-                            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 15l6-6 6 6"></path>
-                            </svg>
-                        </div>
-                    </div>
+
+                <button class="post-it post-it--rose" data-note="projects" data-x="14" data-y="43" aria-label="Open projects summary">
+                    <span class="pin"></span>
+                    <span class="note-kicker">Projects</span>
+                    <strong>6 builds</strong>
+                    <span data-dark-text="Side quests involving AI, analytics, scheduling, and systems that were one meeting away from becoming folklore.">AI agents, scheduling, ML, analytics, and architecture.</span>
                 </button>
-                <button class="card card-5" data-modal="publications">
-                    <div class="card-bg"></div>
-                    <div class="card-overlay-skew" aria-hidden="true"></div>
-                    <div class="shine"><span aria-hidden="true"></span></div>
-                    <div class="card-content">
-                        <h3>Publications</h3>
-                        <p>Articles & Insights</p>
-                        <div class="card-arrow">
-                            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 15l6-6 6 6"></path>
-                            </svg>
-                        </div>
-                    </div>
+
+                <button class="post-it post-it--mint" data-note="certifications" data-x="44" data-y="41" aria-label="Open certifications summary">
+                    <span class="pin"></span>
+                    <span class="note-kicker">Certifications</span>
+                    <strong>Certifications</strong>
+                    <span data-dark-text="Proof I read the docs, survived the tabs, and came back with badges.">Salesforce, MuleSoft, web development, coding, and IoT credentials.</span>
                 </button>
-                <button class="card card-6" data-modal="volunteering">
-                    <div class="card-bg"></div>
-                    <div class="card-overlay-skew" aria-hidden="true"></div>
-                    <div class="shine"><span aria-hidden="true"></span></div>
-                    <div class="card-content">
-                        <h3>Community Service</h3>
-                        <p>Volunteering & Impact</p>
-                        <div class="card-arrow">
-                            <svg viewBox="0 0 24 24" width="28" height="28" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 15l6-6 6 6"></path>
-                            </svg>
-                        </div>
-                    </div>
+
+                <button class="post-it post-it--sky" data-note="publications" data-x="9" data-y="72" aria-label="Open publications summary">
+                    <span class="pin"></span>
+                    <span class="note-kicker">Publications</span>
+                    <strong>Research</strong>
+                    <span data-dark-text="The research side quest became canon. Twice. Nobody expected the plot twist.">Sign language recognition work published in IJCDS and Springer.</span>
+                </button>
+
+                <button class="post-it post-it--lavender" data-note="community" data-x="72" data-y="47" aria-label="Open community service summary">
+                    <span class="pin"></span>
+                    <span class="note-kicker">Community</span>
+                    <strong>Service</strong>
+                    <span data-dark-text="Teaching, organizing, helping, and doing useful things that do not come with a dashboard.">Education outreach, tutoring, campus leadership, welfare work.</span>
+                </button>
+
+                <button class="post-it post-it--peach" data-note="life" data-x="29" data-y="73" aria-label="Open life and interests summary">
+                    <span class="pin"></span>
+                    <span class="note-kicker">Life</span>
+                    <strong>Interests</strong>
+                    <span data-dark-text="Travel, camera stuff, gaming, scuba, pickleball, and Pluto running morale operations like a senior executive.">Travel, cinematography, pickleball, gaming, scuba, Pluto.</span>
+                </button>
+
+                <button class="post-it post-it--white" data-note="contact" data-x="61" data-y="75" aria-label="Open contact summary">
+                    <span class="pin"></span>
+                    <span class="note-kicker">Contact</span>
+                    <strong>Connect</strong>
+                    <span data-dark-text="If your workflow is held together by meetings, spreadsheets, and hope, we should talk.">Open to information systems, analytics, AI, and transformation conversations.</span>
                 </button>
             </div>
         </section>
 
-        <!-- More About Me Section -->
-        <section class="about-section" id="about-me">
-            <div class="about-container">
-                <button class="about-button">
-                    <div class="about-bg"></div>
-                        <div class="about-content">
-                        <span class="about-label">Get to Know Me</span>
-                        <h2>Life &amp; Interests</h2>
-                        <p>Discover my hobbies, achievements, and what I do for fun.</p>
-                        <div class="about-arrow">
-                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M6 15l6-6 6 6"></path>
-                            </svg>
+        <section class="content-section" id="education" aria-labelledby="education-title">
+            <div class="section-heading reveal">
+                <p class="eyebrow" data-dark-text="Education, aka the training montage">Education</p>
+                <h2 id="education-title" data-dark-text="Business school taught me why the tech exists. Engineering taught me why it breaks at 2 AM.">Academic foundation</h2>
+                <p data-dark-text="MSIS is where business, data, AI, governance, platforms, and stakeholders walk into one room. Somehow, that room becomes a degree instead of a support ticket.">Coursework across information systems, analytics, AI, governance, and software foundations.</p>
+            </div>
+            <div class="timeline">
+                <article class="timeline-item reveal">
+                    <div class="timeline-date">Dec 2026</div>
+                    <div class="timeline-card">
+                        <div>
+                            <h3>Indiana University</h3>
+                            <p class="role" data-dark-text="MS Information Systems - business, data, AI, platforms, and the art of making technical things sound less like ancient spells">Master of Science in Information Systems, Information Systems</p>
+                            <p class="meta">GPA 3.70/4.00</p>
                         </div>
+                        <div class="image-pair" aria-label="Indiana University images">
+                            <img src="images/IU%20LOGO.jpg" alt="Indiana University logo">
+                            <img src="images/Kelley%20building.webp" alt="Kelley School of Business building">
+                        </div>
+                        <details class="education-details">
+                            <summary>View coursework and concentration</summary>
+                            <div class="education-detail-body">
+                                <h4>Relevant Coursework</h4>
+                                <ul class="coursework-list">
+                                    <li><strong>IT Strategy</strong> - Technology-business alignment, CIO leadership, digital transformation, strategic IT planning.</li>
+                                    <li><strong>Power, Politics &amp; IS Implementation</strong> - Organizational behavior, stakeholder management, IT investment decisions, business case development.</li>
+                                    <li><strong>Cloud &amp; Platform Architecture</strong> - Cloud computing models, enterprise architecture, emerging technologies, scalable system design.</li>
+                                    <li><strong>Enterprise Platforms</strong> - ERP &amp; enterprise systems, business process integration, digital transformation, decision support.</li>
+                                    <li><strong>IT Governance, Risk &amp; Controls</strong> - IT governance frameworks, risk management, compliance, technology policy &amp; controls.</li>
+                                    <li><strong>Artificial Intelligence</strong> - Business applications of AI, organizational transformation, AI strategy &amp; adoption.</li>
+                                    <li><strong>Data Analytics</strong> - Data preparation, business analysis, data interpretation, decision support.</li>
+                                    <li><strong>Design Thinking</strong> - Human-centered design, innovation methods, problem framing, solution prototyping.</li>
+                                    <li><strong>Agility, Process &amp; Automation</strong> - Business process modeling, robotic process automation, Agile &amp; Scrum methodologies.</li>
+                                    <li><strong>AI-Driven Development</strong> - AI-augmented software development, intelligent coding, testing &amp; deployment workflows.</li>
+                                    <li><strong>Product Management</strong> - Product strategy, customer discovery, roadmap prioritization, impact measurement.</li>
+                                </ul>
+                                <p class="concentration"><strong>Concentration:</strong> Data Analytics and AI (Business Data Mining, Enterprise Data Management, Big Data Technologies, Designing and Deploying AI Solutions, Digital Platforms and AI, Agentic AI Systems, Power, Persuasion, Influence, Negotiation).</p>
+                            </div>
+                        </details>
                     </div>
-                </button>
+                </article>
+                <article class="timeline-item reveal">
+                    <div class="timeline-date">May 2023</div>
+                    <div class="timeline-card">
+                        <div>
+                            <h3>Chaitanya Bharathi Institute of Technology</h3>
+                            <p class="role" data-dark-text="BE Information Technology - the engineering foundation, before the business brain update shipped">Bachelor of Engineering in Information Technology, Information Technology</p>
+                            <p class="meta">GPA 3.89/4.00</p>
+                        </div>
+                        <div class="image-pair" aria-label="CBIT images">
+                            <img src="images/CBIT%20LOGO.webp" alt="CBIT logo">
+                            <img src="images/CBIT%20building.webp" alt="CBIT building">
+                        </div>
+                        <details class="education-details">
+                            <summary>View coursework</summary>
+                            <div class="education-detail-body">
+                                <h4>Relevant Coursework</h4>
+                                <ul class="coursework-list">
+                                    <li><strong>Programming Concepts</strong> - OOPs, Data Structure and Problem Solving (C, C++, Python, Java, Web Development).</li>
+                                    <li><strong>Probability and Statistics</strong> - Hypothesis testing (Z test, T test, Chi-Square Test, ANOVA).</li>
+                                    <li><strong>Database Management Systems</strong> - PL/SQL programs, triggers, normalization.</li>
+                                    <li><strong>Data Warehousing and Data Mining</strong> - OLAP, OLTP, Star Schema.</li>
+                                    <li><strong>Data Science with Python</strong> - Data cleaning, preparation, wrangling, transformation, visualization.</li>
+                                    <li><strong>Artificial Intelligence</strong> - Machine Learning and Deep Learning algorithms.</li>
+                                    <li><strong>Big Data Analytics</strong> - Hadoop, HDFS, MapReduce, Pig, Hive, Spark, Scala.</li>
+                                    <li><strong>Cloud Computing</strong></li>
+                                    <li><strong>Software Engineering</strong> - Agile, STAR UML, Software Development Life Cycle (SDLC).</li>
+                                </ul>
+                            </div>
+                        </details>
+                    </div>
+                </article>
             </div>
         </section>
 
-        <!-- Connect Section -->
-        <section class="connect-section">
-            <div class="connect-bg">
-                <div class="gradient-orb orb-4"></div>
-                <div class="gradient-orb orb-5"></div>
+        <section class="content-section" id="experience" aria-labelledby="experience-title">
+            <div class="section-heading reveal">
+                <p class="eyebrow" data-dark-text="Work, but de-buzzworded">Experience</p>
+                <h2 id="experience-title" data-dark-text="I help old systems stop panicking and new systems avoid becoming old systems.">Enterprise software delivery</h2>
+                <p data-dark-text="Healthcare modernization, Salesforce engineering, integrations, governance, and the occasional legacy system with main-character energy. I usually enter with a process map and leave with fewer mysteries.">Enterprise delivery across healthcare modernization, Salesforce platforms, integrations, governance, and production systems.</p>
             </div>
-            <div class="connect-container">
-                <h2>Let's Connect</h2>
-                <p>Get in touch through your preferred channel</p>
-                <div class="connect-buttons">
-                    <ul class="connect-icons" aria-label="Contact links">
-                        <li>
-                            <a href="https://www.linkedin.com/in/nishanth-ganji/" target="_blank" aria-label="LinkedIn">
-                                <img class="icon-image" src="https://img.icons8.com/?size=100&id=BRElTmOLC6Bh&format=png&color=000000" alt="LinkedIn">
-                            </a>
-                        </li>
-                        <li>
-                            <a href="mailto:nishanth.ganji@gmail.com" aria-label="Email">
-                                <img class="icon-image" src="https://img.icons8.com/?size=100&id=83161&format=png&color=000000" alt="Email">
-                            </a>
-                        </li>
+            <div class="experience-stack">
+                <article class="experience-card reveal">
+                    <div class="experience-topline">
+                        <div>
+                            <p class="date">May 2026 - Present</p>
+                            <h3>Ascension Technologies</h3>
+                            <p class="role">IT Intern - Digital and Business Solutions</p>
+                        </div>
+                        <img class="company-logo company-logo--wide" src="images/ascension-logo.png" alt="Ascension logo">
+                    </div>
+                    <ul>
+                        <li data-dark-text="Helped shape core system designs for healthcare modernization, which is a polite way of saying: make important stuff scalable without giving business users a jump scare.">Architected core system components and backend solution designs for enterprise healthcare modernization initiatives, collaborating with software engineers, enterprise architects, and cross-functional teams to establish scalable application architecture and resolve technical design challenges.</li>
+                        <li>Contributing to the modernization of legacy enterprise applications using AI-assisted development, low-code platforms, and cloud-native design principles to improve scalability, maintainability, and long-term operational efficiency.</li>
+                        <li>Analyzed legacy business applications and designed cloud-based workflow solutions using Google Workspace, Google Apps Script, and AppSheet to replace aging systems while preserving critical business functionality.</li>
+                        <li>Supported enterprise Single Sign-On integration by coordinating architecture documentation, collaborating with cybersecurity teams, and ensuring compliance with enterprise security standards.</li>
+                        <li>Developed standardized governance documentation for Google Cloud Platform Identity and Access Management, Cloud Storage, and database access workflows, improving consistency across cloud infrastructure provisioning.</li>
+                        <li>Collaborated with engineering and business teams to define technical requirements, solution scope, and implementation strategies for enterprise governance, compliance, and digital transformation initiatives.</li>
+                        <li>Designed the concept for an AI-powered enterprise knowledge chatbot leveraging Generative AI and internal knowledge repositories to automate Tier-0 support and improve employee self-service capabilities.</li>
+                        <li>Produced high-level architecture diagrams, technical documentation, implementation plans, and executive presentations supporting enterprise software modernization and cloud transformation efforts.</li>
                     </ul>
+                    <div class="tag-row">
+                        <span>Google Workspace</span><span>Google Apps Script</span><span>AppSheet</span><span>Google Cloud Platform</span><span>IAM</span><span>Cloud Storage</span>
+                    </div>
+                </article>
+
+                <article class="experience-card reveal">
+                    <div class="experience-topline">
+                        <div>
+                            <p class="date">Aug 2024 - May 2025</p>
+                            <h3>Accelerize360</h3>
+                            <p class="role">Senior Software Engineer, Salesforce Platform</p>
+                        </div>
+                        <img class="company-logo" src="images/A360.png" alt="Accelerize360 logo">
+                    </div>
+                    <ul>
+                        <li data-dark-text="Built and maintained Salesforce platform solutions for 10,000+ users, where every tiny bug immediately develops confidence and starts doing public speaking.">Designed, developed, and maintained enterprise software solutions supporting 10,000+ users using Apex, JavaScript, SQL, REST APIs, and the Salesforce Platform.</li>
+                        <li>Built reusable RESTful APIs and MuleSoft integration services enabling secure, reliable communication across distributed enterprise applications and third-party systems.</li>
+                        <li>Optimized SQL and SOQL queries, improving application performance, reporting responsiveness, and enterprise data quality across large datasets.</li>
+                        <li>Developed scalable workflow automation and backend business logic, reducing manual effort while improving operational efficiency and application reliability.</li>
+                        <li>Built and maintained CI/CD deployment pipelines, participating in sprint planning, backlog refinement, release management, and Agile software development practices.</li>
+                        <li>Investigated and resolved production issues using SQL analysis, application logs, and performance monitoring, improving system stability and reducing recurring defects.</li>
+                        <li>Conducted peer code reviews, maintained technical documentation, and mentored junior developers on software engineering best practices, integration design, and secure coding standards.</li>
+                        <li>Collaborated with architects, product owners, QA engineers, and business stakeholders to deliver scalable, production-ready enterprise software.</li>
+                    </ul>
+                    <div class="tag-row">
+                        <span>Apex</span><span>JavaScript</span><span>SQL</span><span>REST APIs</span><span>Salesforce Platform</span><span>MuleSoft</span><span>SOQL</span><span>CI/CD</span>
+                    </div>
+                </article>
+
+                <article class="experience-card reveal">
+                    <div class="experience-topline">
+                        <div>
+                            <p class="date">May 2023 - Aug 2024</p>
+                            <h3>Accelerize360</h3>
+                            <p class="role">Software Engineer, Salesforce Platform</p>
+                        </div>
+                        <img class="company-logo" src="images/A360.png" alt="Accelerize360 logo">
+                    </div>
+                    <ul>
+                        <li data-dark-text="Built enterprise apps and reusable components, also known as stopping the same problem from returning every sprint wearing a different hat.">Developed enterprise applications and reusable software components using Apex, JavaScript, SQL, and object-oriented programming principles.</li>
+                        <li>Designed and implemented REST API integrations enabling secure data exchange across enterprise platforms and external systems.</li>
+                        <li>Optimized backend database queries and data models, improving application performance, reporting efficiency, and overall system responsiveness.</li>
+                        <li>Built workflow automation solutions supporting business process optimization and reducing repetitive manual operations.</li>
+                        <li>Participated in the complete Software Development Life Cycle, including requirements analysis, design, development, testing, deployment, and production support.</li>
+                        <li>Collaborated with senior engineers to implement scalable software solutions while following coding standards, version control, and Agile development methodologies.</li>
+                        <li>Diagnosed production defects, performed root cause analysis, and implemented software enhancements to improve application reliability and maintainability.</li>
+                    </ul>
+                    <div class="tag-row">
+                        <span>Apex</span><span>JavaScript</span><span>SQL</span><span>REST API</span><span>SDLC</span><span>Agile</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="content-section projects-section" id="projects" aria-labelledby="projects-title">
+            <div class="section-heading reveal">
+                <p class="eyebrow" data-dark-text="Projects, aka productive side quests">Projects</p>
+                <h2 id="projects-title" data-dark-text="Things I built because manual work was getting too comfortable.">Systems, AI, and analytics projects</h2>
+                <p data-dark-text="AI agents, analytics pipelines, scheduling tools, research systems, and architecture roadmaps. Some were class projects. Some were prototypes. All of them asked the same question: why are we still doing this by hand?">Selected work across AI, analytics, scheduling, machine learning, research, and enterprise transformation.</p>
+            </div>
+            <div class="project-grid">
+                <article class="project-card reveal">
+                    <span class="project-number">01</span>
+                    <div class="project-schedule-visual" aria-hidden="true">
+                        <div class="schedule-toolbar">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="schedule-grid">
+                            <span class="slot slot--wide"></span>
+                            <span></span>
+                            <span class="slot slot--active"></span>
+                            <span></span>
+                            <span class="slot slot--soft"></span>
+                            <span></span>
+                            <span class="slot slot--active slot--tall"></span>
+                            <span></span>
+                            <span class="slot slot--wide slot--soft"></span>
+                        </div>
+                        <div class="schedule-command">
+                            <span>Book focus room</span>
+                            <strong>Calendar + Sheets + Apps Script</strong>
+                        </div>
+                    </div>
+                    <h3>AI-Enabled Workspace Scheduling Modernization</h3>
+                    <p class="role" data-dark-text="Proof of concept - because the legacy reservation system had served its sentence">Proof of concept - internship project</p>
+                    <ul>
+                        <li data-dark-text="Built a workspace scheduling prototype to test whether an old reservation platform could finally retire with dignity and maybe a small farewell cake.">Designed and developed a proof-of-concept workspace scheduling application to evaluate modernization of a legacy reservation platform using Google Workspace technologies.</li>
+                        <li>Built a serverless web application with Google Apps Script, Google Calendar, and Google Sheets, eliminating the need for dedicated application servers and database infrastructure for the prototype.</li>
+                        <li>Implemented scheduling validation, resource availability checks, automated notifications, and operational workflows to improve booking accuracy and reduce manual coordination.</li>
+                        <li>Developed a natural-language booking assistant using deterministic parsing to streamline reservation creation while maintaining rule-based validation.</li>
+                        <li>Integrated browser-based interfaces with Google Workspace services to support real-time scheduling, audit tracking, and operational visibility.</li>
+                        <li>Researched an enterprise roadmap for governed generative AI integration, identity management, and scalable deployment aligned with organizational standards.</li>
+                    </ul>
+                    <div class="tag-row">
+                        <span>Google Apps Script</span><span>Google Workspace</span><span>Google Calendar API</span><span>Google Sheets</span><span>REST APIs</span>
+                    </div>
+                </article>
+
+                <article class="project-card project-card--visual reveal">
+                    <span class="project-number">02</span>
+                    <div class="project-mini-dashboard" aria-hidden="true">
+                        <span style="height: 62%"></span>
+                        <span style="height: 84%"></span>
+                        <span style="height: 48%"></span>
+                        <span style="height: 76%"></span>
+                    </div>
+                    <h3>JobAgent | Visa-Aware AI Job Scoring Platform</h3>
+                    <ul>
+                        <li data-dark-text="Built an AI job scoring platform because manually reading job posts and guessing visa friendliness is not a hobby, it is a slow psychological thriller.">Developed an end-to-end agentic AI platform that autonomously evaluates job postings and generates resume-aware, visa-conscious recommendations for international students.</li>
+                        <li>Designed a full-stack architecture using React, FastAPI, and Supabase to orchestrate AI scoring, data persistence, and asynchronous workflows.</li>
+                        <li>Integrated Google Gemini 2.0 Flash to score opportunities across skill match, visa friendliness, seniority fit, and company quality, returning structured recommendations.</li>
+                        <li>Built an autonomous pipeline that scraped job postings, generated resume-grounded prompts, persisted results to PostgreSQL, and delivered real-time mobile push notifications using ntfy.sh, eliminating manual intervention between job submission and recommendation delivery.</li>
+                        <li>Implemented single-job and batch job-scoring workflows with an interactive React dashboard for score visualization, filtering, and progress tracking.</li>
+                    </ul>
+                    <div class="tag-row">
+                        <span>Python</span><span>FastAPI</span><span>React</span><span>Google Gemini 2.0 Flash</span><span>Supabase</span><span>PostgreSQL</span><span>Jina.ai</span><span>REST APIs</span><span>ntfy.sh</span>
+                    </div>
+                    <div class="project-links" aria-label="JobAgent project resources">
+                        <a class="project-link" href="https://github.com/nisganji/Agentic-Final" target="_blank" rel="noopener">View GitHub</a>
+                        <a class="project-link" href="https://indiana-my.sharepoint.com/:p:/g/personal/smallada_iu_edu/IQAHeQN1HVd2RpD1cZHysCJZAWQvGh9t7KWfOfnToM2hhj0?e=pBrbhc" target="_blank" rel="noopener">View slide deck</a>
+                    </div>
+                </article>
+
+                <article class="project-card reveal">
+                    <span class="project-number">03</span>
+                    <img class="project-image" src="images/SLR.jpg" alt="Sign language recognition project visual">
+                    <h3>Real Time Intelligent Sign Language Recognition System</h3>
+                    <ul>
+                        <li data-dark-text="Built a real-time ASL recognition system that turns gestures into text and speech. Useful tech, not just another dashboard pretending to be destiny.">Designed and developed a real-time sign language recognition system that translates American Sign Language gestures into multilingual text and speech using deep learning.</li>
+                        <li>Built an end-to-end machine learning pipeline integrating MediaPipe hand landmark extraction, TensorFlow/Keras Sequential models, Flask, and speech synthesis for real-time inference.</li>
+                        <li>Constructed and trained a custom dataset containing 31,800+ samples, 30 word-level gesture classes, and 42 hand landmark features, achieving 99.11% classification accuracy.</li>
+                        <li>Optimized model performance using Hyperband hyperparameter tuning, improving inference efficiency while maintaining high prediction accuracy.</li>
+                        <li>Published the research in the International Journal of Computing and Digital Systems in 2026.</li>
+                    </ul>
+                    <div class="tag-row">
+                        <span>Python</span><span>TensorFlow</span><span>Keras</span><span>MediaPipe</span><span>OpenCV</span><span>Flask</span><span>Google Translate API</span>
+                    </div>
+                    <a class="project-link" href="https://journal.uob.edu.bh/items/3e7ac2f1-0e02-415f-b9df-3abad4b816fa" target="_blank" rel="noopener">View journal article</a>
+                </article>
+
+                <article class="project-card reveal">
+                    <span class="project-number">04</span>
+                    <div class="project-ensemble-visual" aria-hidden="true">
+                        <div class="ensemble-data-cloud">
+                            <span></span><span></span><span></span><span class="is-rare"></span><span></span><span></span>
+                            <span></span><span class="is-rare"></span><span></span><span></span><span></span><span></span>
+                            <span></span><span></span><span class="is-rare"></span><span></span><span></span><span></span>
+                        </div>
+                        <div class="ensemble-validation">
+                            <span style="--w: 36%"></span>
+                            <span style="--w: 58%"></span>
+                            <span style="--w: 47%"></span>
+                            <span style="--w: 82%"></span>
+                        </div>
+                        <div class="ensemble-flow">
+                            <span></span>
+                            <span></span>
+                            <span class="is-selected"></span>
+                        </div>
+                    </div>
+                    <h3>Music Subscription Adoption Prediction</h3>
+                    <p class="role" data-dark-text="Machine learning ensemble pipeline - many models entered, one stack left with the trophy">Machine learning ensemble pipeline</p>
+                    <ul>
+                        <li data-dark-text="Built a machine learning pipeline on 58,000+ customer records to predict who might go premium, because vibes are not a forecasting method, even if the vibes are immaculate.">Built an end-to-end machine learning pipeline on 58,000+ customer records to predict premium subscription adoption, enabling data-driven customer acquisition strategies.</li>
+                        <li>Performed feature engineering on behavioral, engagement, and social-network data to improve predictive performance and model interpretability.</li>
+                        <li>Trained, validated, and compared multiple supervised learning models including Gradient Boosting Machines, Neural Networks, Elastic Net Logistic Regression, and Decision Trees, selecting optimal models using F1-score and cross-validation.</li>
+                        <li>Addressed severe class imbalance with less than 2% positive class using oversampling and weighted-learning techniques, significantly improving minority-class prediction performance.</li>
+                        <li>Designed and implemented a stacked ensemble learning framework using meta-learning, achieving the highest-performing solution among 21 experimental model submissions.</li>
+                        <li>Developed leakage-resistant validation workflows using k-fold cross-validation and out-of-fold prediction generation to improve model robustness and generalization.</li>
+                    </ul>
+                    <div class="tag-row">
+                        <span>Python</span><span>R</span><span>Gradient Boosting</span><span>Neural Networks</span><span>Elastic Net</span><span>Ensemble Learning</span><span>Cross-Validation</span>
+                    </div>
+                    <div class="project-links" aria-label="Music subscription project resources">
+                        <a class="project-link" href="https://indiana-my.sharepoint.com/:p:/g/personal/nisganji_iu_edu/IQD_8UNllA2hQa4XneY-pW_8AfhhR06uSc1008srIYYwzsE?e=hOwz4K" target="_blank" rel="noopener">View slide deck</a>
+                        <a class="project-link" href="https://drive.google.com/file/d/1_WOd2JZY_jfelFrykzdKSpE2W4ERyseE/view?usp=sharing" target="_blank" rel="noopener">View model code</a>
+                    </div>
+                </article>
+
+                <article class="project-card reveal">
+                    <span class="project-number">05</span>
+                    <img class="project-image project-image--logo" src="images/DPAI.png" alt="Indiana University logo">
+                    <h3>AI Marketplace Trust Study - IU Classifieds</h3>
+                    <ul>
+                        <li data-dark-text="Ran an experiment with 106 participants to see how AI disclosure affects trust. Translation: does saying AI did this make people suspicious? Spoiler: people are complicated.">Designed and conducted a randomized controlled experiment involving 106 participants to evaluate the impact of AI disclosure on user trust.</li>
+                        <li>Built reproducible analytics pipelines using Python to clean, analyze, and visualize experimental data.</li>
+                        <li>Applied OLS regression with robust standard errors to identify statistically significant behavioral trends.</li>
+                        <li>Developed stakeholder-focused dashboards and executive reports translating analytical findings into actionable product recommendations.</li>
+                        <li>Presented findings using clear visualizations supporting data-driven business decision making.</li>
+                    </ul>
+                    <div class="tag-row">
+                        <span>Python</span><span>Statistical Analysis</span><span>Experimental Design</span>
+                    </div>
+                    <div class="project-links" aria-label="AI marketplace trust study resources">
+                        <a class="project-link" href="https://drive.google.com/drive/folders/1tJkmNPQIA_-ym8s2r7dRh2vWFOOCmMWU?usp=sharing" target="_blank" rel="noopener">View report and deck</a>
+                    </div>
+                </article>
+
+                <article class="project-card reveal">
+                    <span class="project-number">06</span>
+                    <img class="project-image" src="images/TMHNA.jpg" alt="Toyota Material Handling North America project visual">
+                    <h3>Enterprise Digital Transformation Strategy</h3>
+                    <p class="role" data-dark-text="Toyota Material Handling North America - enterprise architecture boss level, but with more slide decks">Toyota Material Handling North America</p>
+                    <ul>
+                        <li data-dark-text="Designed a 21-month transformation roadmap across three business units, which is basically strategy chess with more stakeholders and fewer dramatic camera angles.">Designed a three-phase, 21-month enterprise transformation roadmap aligning governance, technology modernization, and operating models across three business units.</li>
+                        <li>Produced 15+ enterprise architecture artifacts, including integration architecture, unified enterprise data model, technology roadmap, KPIs, governance framework, and risk controls.</li>
+                        <li>Evaluated cloud modernization, enterprise integration, and platform standardization strategies supporting an estimated 20-25% reduction in long-term integration costs.</li>
+                        <li>Developed scalable solution recommendations emphasizing enterprise architecture, interoperability, governance, and operational efficiency.</li>
+                    </ul>
+                    <div class="tag-row">
+                        <span>Enterprise Architecture</span><span>Cloud Modernization</span><span>Solution Design</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="content-section certifications-section" id="certifications" aria-labelledby="certifications-title">
+            <div class="section-heading reveal">
+                <p class="eyebrow" data-dark-text="Receipts, but the useful kind">Certifications</p>
+                <h2 id="certifications-title" data-dark-text="Proof I fought the documentation boss and did not rage quit.">Certifications</h2>
+                <p data-dark-text="Badges are nice. Knowing when the platform is helping and when it is quietly setting a trap is the actual plot.">Platform, integration, web, coding, and IoT credentials that support the systems work.</p>
+            </div>
+            <div class="credential-list credential-list--standalone reveal">
+                <article class="credential-card credential-card--with-badge">
+                    <div class="credential-copy">
+                        <span>Salesforce</span>
+                        <h3>Salesforce Certified Platform Developer I</h3>
+                        <p>Issued Nov 2023 - Credential ID 3812898</p>
+                        <a href="https://www.salesforce.com/trailblazer/nganji7" target="_blank" rel="noopener">View credential</a>
+                    </div>
+                    <img class="credential-badge" src="images/salesforce-platform-developer-certified.png" alt="Salesforce Certified Platform Developer badge">
+                </article>
+                <article class="credential-card credential-card--with-badge">
+                    <div class="credential-copy">
+                        <span>Salesforce</span>
+                        <h3>Salesforce Certified Platform Developer II</h3>
+                        <p>Issued Jun 2024 - Credential ID 4624841</p>
+                        <a href="https://www.salesforce.com/trailblazer/nganji7" target="_blank" rel="noopener">View credential</a>
+                    </div>
+                    <img class="credential-badge" src="images/salesforce-platform-developer-ii-certified.png" alt="Salesforce Certified Platform Developer II badge">
+                </article>
+                <article class="credential-card credential-card--with-badge">
+                    <div class="credential-copy">
+                        <span>MuleSoft</span>
+                        <h3>Salesforce Certified MuleSoft Developer</h3>
+                        <p>Issued Dec 2024 - Credential ID 5392032</p>
+                        <a href="https://www.salesforce.com/trailblazer/nganji7" target="_blank" rel="noopener">View credential</a>
+                    </div>
+                    <img class="credential-badge" src="images/salesforce-mulesoft-developer-certified.png" alt="Salesforce Certified MuleSoft Developer badge">
+                </article>
+                <article class="credential-card credential-card--with-logo">
+                    <div class="credential-copy">
+                        <span>Udemy</span>
+                        <h3>The Web Developer Bootcamp 2023</h3>
+                        <p>Issued Apr 2023</p>
+                        <a href="https://www.udemy.com/certificate/UC-cd53763c-66c9-4af4-a9cb-0fb8a4614320/" target="_blank" rel="noopener">View credential</a>
+                    </div>
+                    <img class="credential-logo" src="images/udemy-logo.png" alt="Udemy logo">
+                </article>
+                <article class="credential-card credential-card--with-logo">
+                    <div class="credential-copy">
+                        <span>Smart Interviews</span>
+                        <h3>Smart Coder</h3>
+                        <p>Issued Jan 2022</p>
+                        <a href="https://smartinterviews.in/certificate/0e428c27" target="_blank" rel="noopener">View credential</a>
+                    </div>
+                    <img class="credential-logo credential-logo--stacked" src="images/smart-interviews-logo.png" alt="Smart Interviews logo">
+                </article>
+                <article class="credential-card credential-card--with-logo">
+                    <div class="credential-copy">
+                        <span>EdX - Columbia University</span>
+                        <h3>DS103x: Internet of Things</h3>
+                        <p>Issued Jun 2020</p>
+                        <a href="https://courses.edx.org/certificates/e68b9337520a4e2ab538e2277acf17d3" target="_blank" rel="noopener">View credential</a>
+                    </div>
+                    <img class="credential-logo" src="images/columbiax-logo.png" alt="ColumbiaX logo">
+                </article>
+            </div>
+            <div class="publication-subsection" id="publications" aria-labelledby="publications-title">
+                <div class="section-heading section-heading--compact reveal">
+                    <p class="eyebrow" data-dark-text="Research arc unlocked">Publications</p>
+                    <h2 id="publications-title" data-dark-text="The side quest became canon. Twice. My academic lore got paperwork.">Research that turned into usable systems.</h2>
+                    <p data-dark-text="Two sign language recognition publications: one where we built the thing, and one where we looked at the field and said, okay, here is what everyone has been cooking.">Two sign language recognition publications: one implementation-focused journal article and one review chapter that framed the solution space.</p>
+                </div>
+                <div class="publication-page-grid">
+                    <article class="publication-page-card reveal">
+                        <p class="eyebrow">Journal Article</p>
+                        <h3>Intelligent Sign Language Recognition Using Deep Sequential Architectures in Keras</h3>
+                        <p class="publication-meta">International Journal of Computing and Digital Systems, University of Bahrain, 2026</p>
+                        <p data-dark-text="This paper is the build-heavy one: real-time ASL recognition, MediaPipe landmarks, Keras/TensorFlow, Flask, text, speech, and enough training samples to make the model stop guessing like it is on a game show.">The journal article presents a real-time American Sign Language recognition system that translates word-level gestures into text and speech through MediaPipe hand landmarks, a Keras Sequential model, TensorFlow, and a Flask web interface. It focuses on practical assistive communication, using a roughly 31,000-row dataset across 30 classes and 42 hand landmarks to reduce irrelevant visual bias while reporting 99% accuracy.</p>
+                        <a href="https://journal.uob.edu.bh/items/3e7ac2f1-0e02-415f-b9df-3abad4b816fa" target="_blank" rel="noopener">Read journal article</a>
+                    </article>
+
+                    <article class="publication-page-card reveal">
+                        <p class="eyebrow">Book Chapter</p>
+                        <h3>A Review on Sign Language Recognition Techniques</h3>
+                        <p class="publication-meta">Springer Nature Singapore, Proceedings of the 2nd International Conference on Cognitive and Intelligent Computing, 2023</p>
+                        <p data-dark-text="This chapter is the bigger-picture one: what people tried, what worked, what got weird, and why computer vision started looking like the main character.">The Springer book chapter reviews sign language recognition techniques developed to help people who rely on signing communicate with people who may not understand sign language. It compares glove-based and computer-vision-based approaches, discussing their methodologies, advantages, and tradeoffs as the field moves toward text and speech output systems.</p>
+                        <a href="https://link.springer.com/chapter/10.1007/978-981-99-2742-5_32" target="_blank" rel="noopener">Read Springer chapter</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section community-section" id="community" aria-labelledby="community-title">
+            <div class="section-heading reveal">
+                <p class="eyebrow" data-dark-text="People stuff, no login required">Community</p>
+                <h2 id="community-title" data-dark-text="Not every useful system has an API. Some just need people to show up.">Service and leadership</h2>
+                <p data-dark-text="Teaching, volunteering, organizing, and helping where I could. Less dashboard, more showing up and doing the thing.">Education outreach, tutoring, campus leadership, and welfare volunteering.</p>
+            </div>
+            <div class="community-grid">
+                <article class="community-card reveal">
+                    <img src="images/dogbowl.png" alt="Street animal welfare icon">
+                    <h3>Street Animal Welfare Volunteer</h3>
+                    <p class="meta">Hyderabad, India</p>
+                    <p data-dark-text="Helped with food, care coordination, shelter support, rescue help, and adoption networks. Not glamorous, extremely necessary, and yes, emotionally effective.">Volunteered with local welfare groups and independent rescuers to support injured, abandoned, and at-risk street animals through food, care coordination, temporary shelter, rescue assistance, and adoption networks.</p>
+                </article>
+                <article class="community-card reveal">
+                    <img src="images/NGO.png" alt="Education outreach icon">
+                    <h3>Education Outreach Volunteer</h3>
+                    <p class="meta">Government School, Hyderabad</p>
+                    <p data-dark-text="Helped students with math, English, and computer basics through Communicando and HOPE FOR LIFE. Tiny wins, big impact, zero need for corporate fonts.">Supported classroom learning with mathematics, English, and computer fundamentals through Communicando Literary Club and HOPE FOR LIFE, an NGO supporting 5,500+ individuals.</p>
+                </article>
+                <article class="community-card reveal">
+                    <img src="images/education.png" alt="Peer tutor icon">
+                    <h3>Peer Tutor</h3>
+                    <p class="meta">Chaitanya Bharathi Institute of Technology</p>
+                    <p data-dark-text="Tutored 38+ students in data structures and DBMS. Also answered the eternal question: is this important for placements? Yes. Unfortunately, yes.">Conducted weekly tutoring sessions for 38+ students in Advanced Data Structures and Database Management Systems while mentoring juniors on coursework, projects, and early career decisions.</p>
+                </article>
+                <article class="community-card reveal">
+                    <img src="images/literalClub.png" alt="Student leadership icon">
+                    <h3>Student Leadership</h3>
+                    <p class="meta">Communicando Literary Club, CBIT</p>
+                    <p data-dark-text="Led the website side and helped run events. Basically: make the club visible, functional, and slightly less powered by last-minute panic.">Served as Head of Website Department and Senior Coordinator of Events, leading the club's digital presence and organizing communication-focused campus activities.</p>
+                    <a href="https://www.instagram.com/communicando/" target="_blank" rel="noopener">Visit Communicando</a>
+                </article>
+            </div>
+        </section>
+
+        <section class="life-section" id="life" aria-labelledby="life-title">
+            <div class="life-hero reveal">
+                <div>
+                    <p class="eyebrow" data-dark-text="The non-work DLC">Life &amp; Interests</p>
+                    <h2 id="life-title" data-dark-text="The parts that keep me from becoming a walking LinkedIn post.">The world beyond my work.</h2>
+                    <p data-dark-text="Travel, cinematography, games, scuba, pickleball, and Pluto keep the brain from overheating. This is called work-life balance, apparently.">Outside of work, I am driven by the same thing that shapes my career: curiosity and the desire to experience the world deeply, not just pass through it.</p>
+                </div>
+                <img src="images/Life%20and%20Interests.jpg" alt="Cinematic night landscape">
+            </div>
+
+            <div class="life-intro reveal">
+                <p data-dark-text="I collect perspective in multiple formats: boarding passes, camera frames, underwater silence, close pickleball rallies, ranked-game decisions, and Pluto, who resets the whole operating system without asking for admin access.">Whether I am traveling to new places, framing a shot through a camera lens, grinding through a competitive game, or training on the mat, I approach life with intention. Every interest sharpens something different in me: focus, creativity, discipline, patience, or perspective. Together, they keep me grounded, balanced, and constantly evolving.</p>
+            </div>
+
+            <div class="interest-grid">
+                <article class="interest-card reveal" id="travel">
+                    <div class="interest-carousel" data-carousel>
+                        <img src="images/Life%20%26%20Interests/Travel%201.jpg" alt="Travel scene 1">
+                        <img src="images/Life%20%26%20Interests/Travel%202.jpeg" alt="Travel scene 2">
+                        <img src="images/Life%20%26%20Interests/Travel%203.jpg" alt="Travel scene 3">
+                    </div>
+                    <h3>Travel</h3>
+                    <p data-dark-text="Japan and Thailand rewired how I notice design, culture, and tiny details. Also confirmed that good food can solve at least 43% of life problems. The remaining 57% needs better planning.">Japan and Thailand changed how I see people, design, and everyday life. I came back with a deeper respect for culture, craft, and the quiet details that make places unforgettable.</p>
+                    <div class="tag-row"><span>Culture</span><span>Perspective</span><span>Exploration</span></div>
+                </article>
+
+                <article class="interest-card reveal" id="cinema">
+                    <div class="interest-carousel" data-carousel>
+                        <img src="images/Life%20%26%20Interests/Cinematography%20and%20Photography%201.jpg" alt="Cinematography scene 1">
+                        <img src="images/Life%20%26%20Interests/Cinematography%20and%20Photography%202.jpg" alt="Cinematography scene 2">
+                        <img src="images/Life%20%26%20Interests/Cinematography%20and%20Photography%203.jpg" alt="Cinematography scene 3">
+                    </div>
+                    <h3>Cinematography &amp; Photography</h3>
+                    <p data-dark-text="I like chasing light, mood, and frames that feel alive. Camera work teaches patience by humbling you immediately when you rush it. Very effective syllabus.">I am interested in capturing mood, movement, and emotion through light and framing. The craft has taught me patience, attention to detail, and how powerful a single frame can be.</p>
+                    <a href="https://www.instagram.com/nishanth_2205?igsh=MW9idzhtaW9zNHl6aQ%3D%3D&utm_source=qr" target="_blank" rel="noopener">Instagram</a>
+                </article>
+
+                <article class="interest-card reveal" id="pickleball">
+                    <div class="interest-carousel" data-carousel>
+                        <img src="images/Life%20%26%20Interests/Pickleball%201.jpg" alt="Pickleball scene">
+                    </div>
+                    <h3>Pickleball</h3>
+                    <p data-dark-text="Pickleball is fast, social, and just competitive enough for a casual game to suddenly need a strategy meeting.">Pickleball is fast, social, competitive in the best way, and one of my favorite ways to stay active while spending time with friends.</p>
+                    <div class="tag-row"><span>Community</span><span>Fitness</span><span>Energy</span></div>
+                </article>
+
+                <article class="interest-card reveal" id="gaming">
+                    <div class="interest-carousel" data-carousel>
+                        <img src="images/Life%20%26%20Interests/Competitive%20Gaming%201.jpg" alt="Gaming scene 1">
+                        <img src="images/Life%20%26%20Interests/Competitive%20Gaming%202.jpg" alt="Gaming scene 2">
+                        <img src="images/Life%20%26%20Interests/Competitive%20Gaming%203.jpg" alt="Gaming scene 3">
+                        <img src="images/Life%20%26%20Interests/Competitive%20Gaming%204.jpg" alt="Gaming scene 4">
+                    </div>
+                    <h3>Competitive Gaming</h3>
+                    <p data-dark-text="Competitive gaming is strategy, pressure, decision-making, and occasionally asking the screen why the team selected chaos as the operating model.">I enjoy competitive gaming as a serious mental sport. It sharpens decision-making, focus, strategy, and performance under pressure.</p>
+                    <div class="tag-row"><span>Strategy</span><span>Competition</span><span>Focus</span></div>
+                </article>
+
+                <article class="interest-card reveal" id="scuba">
+                    <div class="interest-carousel" data-carousel>
+                        <img src="images/Life%20%26%20Interests/Scuba%20Diving%201.jpeg" alt="Scuba scene 1">
+                        <img src="images/Life%20%26%20Interests/Scuba%20Diving%202.jpeg" alt="Scuba scene 2">
+                        <img src="images/Life%20%26%20Interests/Scuba%20Diving%203.jpeg" alt="Scuba scene 3">
+                        <img src="images/Life%20%26%20Interests/Scuba%20Diving%204.jpeg" alt="Scuba scene 4">
+                    </div>
+                    <h3>Scuba Diving</h3>
+                    <p data-dark-text="Underwater, everything gets quiet. No notifications, no meetings, no quick sync. Just breathing, focus, and a very real reminder that depth is not just a resume word.">Underwater, everything becomes quieter, calmer, and more intentional. Every dive leaves me grounded, reset, and more present when I return to the surface.</p>
+                    <div class="tag-row"><span>Presence</span><span>Exploration</span><span>Calm</span></div>
+                </article>
+
+                <article class="interest-card reveal" id="pluto">
+                    <div class="interest-carousel" data-carousel>
+                        <img src="images/Life%20%26%20Interests/Pluto%201.jpg" alt="Pluto photo 1">
+                        <img src="images/Life%20%26%20Interests/Pluto%202.jpg" alt="Pluto photo 2">
+                        <img src="images/Life%20%26%20Interests/Pluto%203.jpg" alt="Pluto photo 3">
+                        <img src="images/Life%20%26%20Interests/Pluto%204.jpg" alt="Pluto photo 4">
+                    </div>
+                    <h3>Pluto</h3>
+                    <p data-dark-text="Pluto is the morale department. No standups, no tickets, no roadmap. Just pure emotional uptime and elite tail-wag SLAs.">At the end of every long day, Pluto is the constant that grounds me. His excitement, energy, and smile reset everything.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="contact-section" id="contact" aria-labelledby="contact-title">
+            <div class="contact-panel reveal">
+                <p class="eyebrow" data-dark-text="Plot twist: you can email me">Connect</p>
+                <h2 id="contact-title" data-dark-text="Got a messy workflow? I know a guy. Unfortunately, it is me.">Let us build something useful.</h2>
+                <p data-dark-text="If your workflow is held together by meetings, spreadsheets, and one person named the only one who knows how this works, we should talk before that person goes on vacation.">I am interested in information systems, analytics, enterprise transformation, AI-enabled products, and platform modernization work.</p>
+                <div class="hero-actions">
+                    <a class="primary-action" href="mailto:nishanth.ganji@gmail.com">nishanth.ganji@gmail.com</a>
+                    <a class="secondary-action" href="https://www.linkedin.com/in/nishanth-ganji/" target="_blank" rel="noopener">LinkedIn profile</a>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Modals -->
-    <!-- Education Modal -->
-    <div class="modal" id="education-modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="modal-body">
-                <h2>Education</h2>
-                <div class="education-grid">
-                    <div class="education-card edu-card-1">
-                        <div class="education-info">
-                            <h3>Indiana University, Kelley School of Business</h3>
-                            <div class="edu-mobile-toggle">
-                                <input class="edu-toggle" type="checkbox" id="edu1-toggle">
-                                <label class="edu-toggle-btn" for="edu1-toggle">
-                                    <span class="label-more">Show more</span>
-                                    <span class="label-less">Show less</span>
-                                </label>
-                                <div class="edu-details">
-                                    <div class="edu-quick">
-                                        <span class="edu-pill">MS Information Systems</span>
-                                        <span class="edu-pill">GPA 4.0/4.0</span>
-                                        <span class="edu-pill">Bloomington, IN</span>
-                                        <span class="edu-pill">Concentration: Data Analytics &amp; AI</span>
-                                    </div>
-                                    <div class="edu-coursework">
-                                        <span class="edu-label">RELEVANT COURSEWORK</span>
-                                        <ul class="edu-coursework-list">
-                                            <li>IT Strategy – Technology–business alignment, CIO leadership, digital transformation, strategic IT planning</li>
-                                            <li>Power, Politics &amp; IS Implementation – Organizational behavior, stakeholder management, IT investment decisions, business case development</li>
-                                            <li>Cloud &amp; Platform Architecture – Cloud computing models, enterprise architecture, emerging technologies, scalable system design</li>
-                                            <li>Enterprise Platforms – ERP &amp; enterprise systems, business process integration, digital transformation, decision support</li>
-                                            <li>IT Governance, Risk &amp; Controls – IT governance frameworks, risk management, compliance, technology policy &amp; controls</li>
-                                            <li>Artificial Intelligence – Business applications of AI, organizational transformation, AI strategy &amp; adoption</li>
-                                            <li>Data Analytics – Data preparation, business analysis, data interpretation, decision support</li>
-                                            <li>Design Thinking – Human-centered design, innovation methods, problem framing, solution prototyping</li>
-                                            <li>Agility, Process &amp; Automation – Business process modeling, robotic process automation (RPA), Agile &amp; Scrum methodologies</li>
-                                            <li>AI-Driven Development – AI-augmented software development, intelligent coding, testing &amp; deployment workflows</li>
-                                            <li>Product Management – Product strategy, customer discovery, roadmap prioritization, impact measurement</li>
-                                        </ul>
-                                    </div>
-                                    <p class="edu-coursework"><span class="edu-label">CONCENTRATION</span>: <span class="edu-underline">Data Analytics and AI</span> (Business Data Mining, Enterprise Data Management, Big Data Technologies, Designing and Deploying AI solutions, Digital Platforms and AI, Agentic AI Systems, Power, Persuasion, Influence, Negotiation)</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="education-icon" aria-hidden="true">
-                            <div class="gallery edu-gallery">
-                                <img src="images/IU%20LOGO.jpg" alt="Indiana University logo">
-                                <img src="images/Kelley%20building.webp" alt="Kelley School of Business building">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="education-card edu-card-2">
-                        <div class="education-info">
-                            <h3>Chaitanya Bharathi Institute of Technology</h3>
-                            <div class="edu-mobile-toggle">
-                                <input class="edu-toggle" type="checkbox" id="edu2-toggle">
-                                <label class="edu-toggle-btn" for="edu2-toggle">
-                                    <span class="label-more">Show more</span>
-                                    <span class="label-less">Show less</span>
-                                </label>
-                                <div class="edu-details">
-                                    <div class="edu-quick">
-                                        <span class="edu-pill">BE Information Technology</span>
-                                        <span class="edu-pill">GPA 3.89/4.0</span>
-                                        <span class="edu-pill">Hyderabad, India</span>
-                                    </div>
-                                    <div class="edu-coursework">
-                                        <span class="edu-label">RELEVANT COURSEWORK</span>
-                                        <ul class="edu-coursework-list">
-                                            <li>Programming Concepts - OOPs, Data Structure and Problem Solving (C, C++, Python, Java, Web Development)</li>
-                                            <li>Probability and Statistics - Hypothesis testing (Z test, T test, Chi-Square Test, ANOVA)</li>
-                                            <li>Database Management Systems - PL/SQL programs, triggers, normalization</li>
-                                            <li>Data Warehousing and Data Mining - OLAP, OLTP, Star Schema</li>
-                                            <li>Data Science with Python - Data cleaning, preparation, wrangling, transformation, visualization</li>
-                                            <li>Artificial Intelligence - Machine Learning and Deep Learning algorithms</li>
-                                            <li>Big Data Analytics - Hadoop, HDFS, MapReduce, Pig, Hive, Spark, Scala</li>
-                                            <li>Cloud Computing</li>
-                                            <li>Software Engineering - Agile, STAR UML, Software Development Life Cycle (SDLC)</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="education-icon" aria-hidden="true">
-                            <div class="gallery edu-gallery">
-                                <img src="images/CBIT%20LOGO.webp" alt="CBIT logo">
-                                <img src="images/CBIT%20building.webp" alt="CBIT building">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <template id="detail-about">
+        <p class="detail-kicker">Profile</p>
+        <h3 data-dark-text="Business brain, systems brain, occasionally both loading at once">Engineering-minded information systems leader</h3>
+        <p data-dark-text="I sit between business needs and technical reality, then translate until both sides stop speaking in riddles and start agreeing on what the problem actually is.">I bridge enterprise engineering and business strategy, designing systems that modernize operations, improve maintainability, and create clear decision paths for technical and nontechnical teams.</p>
+        <div class="detail-links"><a href="#experience">Experience</a><a href="#projects">Projects</a></div>
+    </template>
 
-    <!-- Work Experience Modal -->
-    <div class="modal" id="work-experience-modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="modal-body">
-                <h2>Work Experience</h2>
-                <div class="work-card">
-                    <div class="work-hero">
-                        <div class="work-hero-left">
-                            <div class="work-logo-wrap">
-                                <img class="work-logo" src="images/A360.png" alt="Accelerize360 logo">
-                            </div>
-                            <div class="work-hero-text">
-                                <h3>Accelerize360</h3>
-                                <p class="position">Senior Developer | Salesforce Developer</p>
-                                <p class="work-meta">Hyderabad, India | May 2023 - May 2025</p>
-                            </div>
-                        </div>
-                        <div class="work-hero-accent" aria-hidden="true"></div>
-                    </div>
+    <template id="detail-education">
+        <p class="detail-kicker">Education</p>
+        <h3 data-dark-text="IU for systems strategy. CBIT for engineering scars and character development.">Indiana University and CBIT</h3>
+        <ul>
+            <li>MS Information Systems, Indiana University - Dec 2026, GPA 3.70/4.00.</li>
+            <li>BE Information Technology, Chaitanya Bharathi Institute of Technology - May 2023, GPA 3.89/4.00.</li>
+        </ul>
+        <div class="detail-links"><a href="#education">Full education</a></div>
+    </template>
 
-                    <div class="work-mobile-toggle">
-                        <input class="work-toggle" type="checkbox" id="work1-toggle">
-                        <label class="work-toggle-btn" for="work1-toggle">
-                            <span class="label-more">Show more</span>
-                            <span class="label-less">Show less</span>
-                        </label>
-                        <div class="work-details">
-                            <section class="work-section">
-                                <h4>Executive Summary</h4>
-                                <p class="description">Enterprise systems leader specializing in building scalable CRM platforms, cloud integrations, and high-performance business systems for global and Fortune 500 clients. Proven record of delivering measurable impact across engineering, operations, and leadership decision-making.</p>
-                            </section>
+    <template id="detail-experience">
+        <p class="detail-kicker">Experience</p>
+        <h3 data-dark-text="Legacy systems, integrations, and politely asking why are we like this?">Healthcare modernization and Salesforce engineering</h3>
+        <p data-dark-text="Current work: healthcare modernization, AI-assisted development, Google workflows, SSO, and cloud governance. Past work: Salesforce, MuleSoft, APIs, SQL/SOQL, CI/CD, and production issues with impeccable timing.">Current work at Ascension Technologies focuses on enterprise healthcare modernization, AI-assisted development, Google Workspace automation, SSO documentation, and GCP governance. Prior work at Accelerize360 focused on scalable Salesforce solutions, REST APIs, MuleSoft integrations, SQL/SOQL optimization, CI/CD, and production support.</p>
+        <div class="detail-links"><a href="#experience">Full experience</a></div>
+    </template>
 
-                            <section class="work-section">
-                                <h4>Key Contributions</h4>
-                                <ul class="work-list">
-                                    <li>Led enterprise CRM architecture and multi-cloud platform design supporting high-volume global operations.</li>
-                                    <li>Built scalable integration layers using REST APIs and MuleSoft connecting Salesforce with external business systems.</li>
-                                    <li>Engineered real-time executive dashboards transforming CRM data into actionable insights.</li>
-                                    <li>Developed automation frameworks across lead, opportunity, and service workflows to eliminate manual processes.</li>
-                                    <li>Implemented CI/CD pipelines and release governance models for predictable, low-risk deployments.</li>
-                                    <li>Modernized backend systems through performance optimization and refactoring of critical components.</li>
-                                </ul>
-                            </section>
+    <template id="detail-projects">
+        <p class="detail-kicker">Projects</p>
+        <h3 data-dark-text="Side quests with measurable outcomes and fewer unnecessary meetings">AI, analytics, and enterprise transformation</h3>
+        <ul>
+            <li>Workspace scheduling modernization PoC using Google Apps Script, Calendar, Sheets, and deterministic natural-language booking.</li>
+            <li>Visa-aware AI job scoring platform using React, FastAPI, Supabase, PostgreSQL, Gemini, Jina.ai, and ntfy.sh.</li>
+            <li>Real-time ASL recognition with TensorFlow, Keras, MediaPipe, OpenCV, Flask, and speech synthesis.</li>
+            <li>ML subscription adoption pipeline, IU classifieds trust study, and TMHNA enterprise transformation roadmap.</li>
+        </ul>
+        <div class="detail-links"><a href="#projects">All projects</a></div>
+    </template>
 
-                            <section class="work-section">
-                                <h4>Results Delivered</h4>
-                                <ul class="work-list">
-                                    <li>Enabled leadership to use CRM as a core decision engine for revenue planning and go-to-market strategy.</li>
-                                    <li>Reduced system latency and report-generation delays in high-volume environments.</li>
-                                    <li>Increased platform reliability, security, and compliance through advanced governance frameworks.</li>
-                                    <li>Improved developer productivity and delivery consistency through standardized DevOps practices.</li>
-                                    <li>Accelerated product adoption by translating technical capabilities into clear business value.</li>
-                                </ul>
-                            </section>
+    <template id="detail-certifications">
+        <p class="detail-kicker">Certifications</p>
+        <h3 data-dark-text="Proof I did the homework and opened the scary PDF">Certifications</h3>
+        <p data-dark-text="Salesforce, MuleSoft, web development, coding, and IoT. Documentation was read. Tabs were many. Coffee carried the squad.">Salesforce Platform Developer I, Salesforce Platform Developer II, MuleSoft Developer, Web Developer Bootcamp, Smart Coder, and EdX Internet of Things.</p>
+        <div class="detail-links"><a href="#certifications">Certifications</a><a href="#publications">Publications</a></div>
+    </template>
 
-                            <section class="work-section">
-                                <h4>Leadership &amp; Influence</h4>
-                                <ul class="work-list">
-                                    <li>Mentored 40+ engineers through structured onboarding, design reviews, and performance optimization.</li>
-                                    <li>Acted as the technical bridge between business stakeholders, architects, and delivery teams.</li>
-                                    <li>Elevated engineering culture by enforcing coding standards, ownership, and continuous improvement.</li>
-                                    <li>Strengthened cross-functional execution by aligning product, business, and engineering priorities.</li>
-                                </ul>
-                            </section>
+    <template id="detail-publications">
+        <p class="detail-kicker">Publications</p>
+        <h3 data-dark-text="Research that escaped the folder and got published">Sign language recognition research</h3>
+        <p data-dark-text="One publication built the ASL recognition system. The other reviewed the field. The research side quest looked around, found a journal, and moved in.">Published work includes a 2026 International Journal of Computing and Digital Systems article on real-time ASL recognition and a 2023 Springer book chapter reviewing sign language recognition techniques.</p>
+        <div class="detail-links"><a href="#publications">Publications</a><a href="#projects">Related project</a></div>
+    </template>
 
-                            <section class="work-section">
-                                <h4>Tools &amp; Technologies</h4>
-                                <div class="work-tags">
-                                    <span class="edu-pill work-tag">Salesforce Cloud</span>
-                                    <span class="edu-pill work-tag">Apex</span>
-                                    <span class="edu-pill work-tag">MuleSoft</span>
-                                    <span class="edu-pill work-tag">REST</span>
-                                    <span class="edu-pill work-tag">SOQL</span>
-                                    <span class="edu-pill work-tag">CI/CD</span>
-                                    <span class="edu-pill work-tag">Git</span>
-                                    <span class="edu-pill work-tag">Google Cloud</span>
-                                    <span class="edu-pill work-tag">Cloud Integration</span>
-                                    <span class="edu-pill work-tag">DevOps</span>
-                                    <span class="edu-pill work-tag">API Design</span>
-                                    <span class="edu-pill work-tag">Data Visualization</span>
-                                    <span class="edu-pill work-tag">Agile</span>
-                                </div>
-                            </section>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <template id="detail-community">
+        <p class="detail-kicker">Community</p>
+        <h3 data-dark-text="Useful work that does not need a dashboard or a weekly sync">Service, teaching, and campus leadership</h3>
+        <p data-dark-text="Teaching, tutoring, organizing, welfare volunteering, and generally trying to be useful outside the resume section, where the real plot quietly happens.">Community work includes education outreach with Communicando and HOPE FOR LIFE, peer tutoring for 38+ students, student leadership at CBIT, and local welfare volunteering in Hyderabad.</p>
+        <div class="detail-links"><a href="#community">Community work</a></div>
+    </template>
 
-    <!-- Certifications Modal -->
-    <div class="modal" id="certifications-modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="modal-body">
-                <h2>Certifications</h2>
-                <div class="certifications-grid" aria-label="Certification highlights">
-                    <article class="cert-hex cert-hex-1">
-                        <div class="cert-hex__inner">
-                            <span class="cert-hex__badge">Salesforce</span>
-                            <h3>Salesforce Certified Platform Developer I</h3>
-                            <p class="issuer">Issued Nov 2023</p>
-                            <p class="date">Credential ID 3812898</p>
-                            <a class="cert-hex__action" href="https://www.salesforce.com/trailblazer/nganji7" target="_blank" rel="noopener">View credential</a>
-                        </div>
-                    </article>
-                    <article class="cert-hex cert-hex-2">
-                        <div class="cert-hex__inner">
-                            <span class="cert-hex__badge">Salesforce</span>
-                            <h3>Salesforce Certified Platform Developer II</h3>
-                            <p class="issuer">Issued Jun 2024</p>
-                            <p class="date">Credential ID 4624841</p>
-                            <a class="cert-hex__action" href="https://www.salesforce.com/trailblazer/nganji7" target="_blank" rel="noopener">View credential</a>
-                        </div>
-                    </article>
-                    <article class="cert-hex cert-hex-3">
-                        <div class="cert-hex__inner">
-                            <span class="cert-hex__badge">MuleSoft</span>
-                            <h3>Salesforce Certified MuleSoft Developer</h3>
-                            <p class="issuer">Issued Dec 2024</p>
-                            <p class="date">Credential ID 5392032</p>
-                            <a class="cert-hex__action" href="https://www.salesforce.com/trailblazer/nganji7" target="_blank" rel="noopener">View credential</a>
-                        </div>
-                    </article>
-                    <article class="cert-hex cert-hex-4">
-                        <div class="cert-hex__inner">
-                            <span class="cert-hex__badge">Udemy</span>
-                            <h3>The Web Developer Bootcamp 2023</h3>
-                            <p class="issuer">Issued Apr 2023</p>
-                            <a class="cert-hex__action" href="https://www.udemy.com/certificate/UC-cd53763c-66c9-4af4-a9cb-0fb8a4614320/" target="_blank" rel="noopener">View credential</a>
-                        </div>
-                    </article>
-                    <article class="cert-hex cert-hex-5">
-                        <div class="cert-hex__inner">
-                            <span class="cert-hex__badge">Smart Interviews</span>
-                            <h3>Smart Coder</h3>
-                            <p class="issuer">Issued Jan 2022</p>
-                            <a class="cert-hex__action" href="https://smartinterviews.in/certificate/0e428c27" target="_blank" rel="noopener">View credential</a>
-                        </div>
-                    </article>
-                    <article class="cert-hex cert-hex-6">
-                        <div class="cert-hex__inner">
-                            <span class="cert-hex__badge">EdX - Columbia University</span>
-                            <h3>DS103x: Internet of Things</h3>
-                            <p class="issuer">Issued Jun 2020</p>
-                            <a class="cert-hex__action" href="https://courses.edx.org/certificates/e68b9337520a4e2ab538e2277acf17d3" target="_blank" rel="noopener">View credential</a>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </div>
-    </div>
+    <template id="detail-life">
+        <p class="detail-kicker">Life &amp; Interests</p>
+        <h3 data-dark-text="The anti-burnout stack, battle-tested">Curiosity outside work</h3>
+        <p data-dark-text="Travel, camera work, pickleball, gaming, scuba, and Pluto. A surprisingly effective system for staying human and not becoming a productivity template.">Travel, cinematography, photography, pickleball, competitive gaming, scuba diving, and Pluto keep life grounded, creative, and balanced.</p>
+        <div class="detail-links"><a href="#life">Life &amp; Interests</a></div>
+    </template>
 
-    <!-- Projects Modal -->
-    <div class="modal" id="projects-modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="modal-body">
-                <div class="projects-modal">
-                    <section class="interests-hero projects-hero">
-                        <div class="projects-hero-bg" aria-hidden="true"></div>
-                        <div class="interests-hero-content">
-                            <span class="interests-hero-kicker">Project Experience</span>
-                            <h2>Real projects. Real outcomes.</h2>
-                            <p class="interests-hero-subtitle">Strategy, architecture, and execution across enterprise and AI-led initiatives.</p>
-                            <a class="interests-hero-scroll" href="#projects-grid" aria-label="Scroll to project highlights">
-                                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M6 9l6 6 6-6"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </section>
-
-                    <section class="interests-intro projects-intro interests-reveal" id="projects-intro"></section>
-
-                    <section class="interests-grid projects-grid interests-reveal" aria-label="Project highlights" id="projects-grid">
-                        <a class="interest-card project-card" href="#project-tmhna">
-                            <div class="interest-card-media project-card-media project-card-media--tmhna" role="img" aria-label="Toyota Material Handling North America project image"></div>
-                            <div class="interest-card-body">
-                                <h3>Enterprise Digital Transformation Strategy</h3>
-                                <p>Toyota Material Handling North America</p>
-                                <span class="interest-card-link">View project</span>
-                            </div>
-                        </a>
-                        <a class="interest-card project-card" href="#project-helios">
-                            <div class="interest-card-media project-card-media project-card-media--ey" role="img" aria-label="Helios Capital Group project image"></div>
-                            <div class="interest-card-body">
-                                <h3>Strategic AI Transformation</h3>
-                                <p>Helios Capital Group</p>
-                                <span class="interest-card-link">View project</span>
-                            </div>
-                        </a>
-                        <a class="interest-card project-card" href="#project-slr">
-                            <div class="interest-card-media project-card-media project-card-media--slr" role="img" aria-label="Sign language recognition project image"></div>
-                            <div class="interest-card-body">
-                                <h3>Sign Language Recognition</h3>
-                                <p>Computer Vision + Deep Learning</p>
-                                <span class="interest-card-link">View project</span>
-                            </div>
-                        </a>
-                    </section>
-
-                    <section class="interest-story project-story interests-reveal" id="project-tmhna">
-                        <div class="interest-media">
-                            <img class="project-image" src="images/TMHNA.jpg" alt="Toyota Material Handling North America project visual">
-                        </div>
-                        <div class="interest-content">
-                            <span class="project-kicker">Enterprise Consulting</span>
-                            <h3>Enterprise Digital Transformation Strategy</h3>
-                            <p class="project-client">Toyota Material Handling North America</p>
-                            <div class="project-detail">
-                                <h4>Project Overview</h4>
-                                <p>This was a team-based enterprise consulting project developed for Toyota Material Handling North America (TMHNA), a real-world business case spanning multiple brands including Toyota, Raymond, and THD. The objective was to design a scalable transformation strategy that aligns business, technology, and culture while minimizing disruption to existing operations.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>My Role</h4>
-                                <p>I was responsible for the enterprise architecture and technology enablement workstream, collaborating with a team of four to ensure alignment across governance, operating model, financial intelligence, and communication.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>My Approach</h4>
-                                <p>My work focused on translating enterprise strategy into an execution-ready digital foundation. I applied principles from Toyota's culture (Kaizen, Genchi Genbutsu) alongside industry frameworks (Lean IT, SAFe, enterprise integration patterns) to design a phased transformation that emphasized alignment before technology investment.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Key Contributions</h4>
-                                <ul class="project-list">
-                                    <li>Designed a 3-phase, 21-month enterprise transformation roadmap supporting enterprise-wide alignment and scalability.</li>
-                                    <li>Developed 15+ architecture and execution artifacts, including enterprise integration, identity, data, and communication frameworks.</li>
-                                    <li>Supported a financially grounded business case projecting 20-25% reduction in integration costs and improved enterprise decision-making.</li>
-                                </ul>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Outcome</h4>
-                                <p>The final deliverable delivered a strategic roadmap aligned to enterprise objectives to operate as a unified enterprise while preserving existing ERP, telematics, and dealer systems and enabling future growth through advanced analytics and AI.</p>
-                            </div>
-                            <div class="project-metrics-inline">
-                                <div class="project-metric">
-                                    <span class="project-metric-value">3</span>
-                                    <span class="project-metric-label">Phases</span>
-                                </div>
-                                <div class="project-metric">
-                                    <span class="project-metric-value">21</span>
-                                    <span class="project-metric-label">Months</span>
-                                </div>
-                                <div class="project-metric">
-                                    <span class="project-metric-value">15+</span>
-                                    <span class="project-metric-label">Artifacts</span>
-                                </div>
-                            </div>
-                            <div class="interest-tags">
-                                <span class="interest-tag">Enterprise Architecture</span>
-                                <span class="interest-tag">Transformation Strategy</span>
-                                <span class="interest-tag">Lean IT</span>
-                                <span class="interest-tag">SAFe</span>
-                                <span class="interest-tag">Integration</span>
-                            </div>
-                            <p class="project-note">Supporting documents are not publicly available due to NDA/confidentiality restrictions.</p>
-                        </div>
-                    </section>
-
-                    <section class="interest-story project-story interests-reveal is-reverse" id="project-helios">
-                        <div class="interest-media">
-                            <img class="project-image" src="images/EY.jpg" alt="EY Case Competition project visual">
-                        </div>
-                        <div class="interest-content">
-                            <span class="project-kicker">EY Case Competition 2025</span>
-                            <h3>Strategic AI Transformation</h3>
-                            <p class="project-client">Helios Capital Group</p>
-                            <div class="project-detail">
-                                <h4>Project Overview</h4>
-                                <p>This was a team-based consulting project developed for the EY Case Competition 2025, focused on Helios Capital Group, a global, systemically important financial institution managing trillions in assets and facing rapid AI-driven disruption across wealth management, lending, insurance, and payments. The objective was to design a disciplined AI transformation strategy that would enable Helios to achieve a sustainable 15% Return on Tangible Common Equity (ROTCE) within five years while preserving regulatory trust, operational stability, and long-term brand equity.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>My Role - Nishanth Ganji | Technology Consultant</h4>
-                                <p>I served as a Technology Consultant, leading the design of the AI-enabled technology and data architecture. I worked closely with strategy teammates to translate business objectives, financial constraints, and regulatory requirements into an execution-ready digital roadmap.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>My Approach</h4>
-                                <p>My work focused on transforming Helios's strategic mandate into a scalable, enterprise-grade AI operating model. I designed a phased transformation that unified enterprise data on a modern cloud platform, embedded AI directly into advisor workflows, and established governance and compliance controls to ensure regulatory alignment. The solution emphasized advisor augmentation, ensuring AI delivered real-time, explainable, and highly personalized insights while maintaining Helios's conservative risk culture.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Key Contributions</h4>
-                                <ul class="project-list">
-                                    <li>Architected an AI-driven wealth management platform integrating enterprise data, real-time analytics, and governed AI services to deliver personalized portfolio intelligence and automated risk management.</li>
-                                    <li>Designed a mandatory AI adoption and change framework combining phased pilots, performance incentives, executive oversight, and compliance logging to accelerate enterprise-wide transformation.</li>
-                                    <li>Built a 24-month phased implementation roadmap covering governance, data integration, AI pilots, enterprise scaling, and continuous optimization.</li>
-                                    <li>Led financial modeling projecting $4.2B in cost savings, 16.97% target ROTCE, and 70-80% advisor capacity uplift within 18-24 months.</li>
-                                </ul>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Outcome</h4>
-                                <p>The final deliverable provided Helios leadership with a credible, regulator-ready transformation roadmap that converted fragmented legacy operations into an AI-empowered wealth platform, stabilized market confidence, and positioned the organization to exceed its 15% ROTCE target through sustained efficiency gains, higher fee income, and long-term digital competitiveness.</p>
-                            </div>
-                            <div class="project-metrics-inline">
-                                <div class="project-metric">
-                                    <span class="project-metric-value">24</span>
-                                    <span class="project-metric-label">Months</span>
-                                </div>
-                                <div class="project-metric">
-                                    <span class="project-metric-value">$4.2B</span>
-                                    <span class="project-metric-label">Savings</span>
-                                </div>
-                                <div class="project-metric">
-                                    <span class="project-metric-value">16.97%</span>
-                                    <span class="project-metric-label">ROTCE</span>
-                                </div>
-                            </div>
-                            <div class="interest-tags">
-                                <span class="interest-tag">AI Strategy</span>
-                                <span class="interest-tag">Wealth Tech</span>
-                                <span class="interest-tag">Governance</span>
-                                <span class="interest-tag">Cloud Data</span>
-                                <span class="interest-tag">Change Management</span>
-                            </div>
-                            <a class="project-link" href="https://indiana-my.sharepoint.com/:p:/g/personal/gmejias_iu_edu/IQA7SHHoOQeqRoKBTR2ryLw6AQdt5wSruDPgdFSoLaLmjTE?e=NfSFSc" target="_blank" rel="noopener">View project deck</a>
-                        </div>
-                    </section>
-
-                    <section class="interest-story project-story interests-reveal" id="project-slr">
-                        <div class="interest-media">
-                            <img class="project-image" src="images/SLR.jpg" alt="Sign language recognition project visual">
-                        </div>
-                        <div class="interest-content">
-                            <span class="project-kicker">Computer Vision + Deep Learning</span>
-                            <h3>Sign Language Recognition for Inclusivity</h3>
-                            <p class="project-client">Research + Product Build</p>
-                            <div class="project-detail">
-                                <h4>Description</h4>
-                                <p>Led a team of three in developing a Python-based sign language recognition website, surpassing existing solutions by handling 130% more classes and achieving a 4.5% increase in accuracy through multiclass classification, an artificial neural network (Tensorflow &amp; Keras), and Flask.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Bias Reduction</h4>
-                                <p>Eliminated bias by training the model solely on hand landmark positions, allowing it to generalize across hands of varying skin colors and sizes.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Communication + Publication</h4>
-                                <p>Delivered a technical presentation to a technical audience and published the research in Springer. DOI:10.1007/978-981-99-2742-5_32.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Key Concepts</h4>
-                                <p>Data Science Solution Lifecycle, Multiclass Classification, Computer Vision, Neural Networks, Web Frameworks, Language Translation.</p>
-                            </div>
-                            <div class="project-detail">
-                                <h4>Tech Stack</h4>
-                                <p>Python, HTML, CSS, JavaScript. Libraries: Numpy, Pandas, Matplotlib, Seaborn, Tensorflow, Keras, Scikit-learn, OpenCV, Mediapipe, Flask.</p>
-                            </div>
-                            <div class="project-metrics-inline">
-                                <div class="project-metric">
-                                    <span class="project-metric-value">130%</span>
-                                    <span class="project-metric-label">More Classes</span>
-                                </div>
-                                <div class="project-metric">
-                                    <span class="project-metric-value">+4.5%</span>
-                                    <span class="project-metric-label">Accuracy</span>
-                                </div>
-                                <div class="project-metric">
-                                    <span class="project-metric-value">3</span>
-                                    <span class="project-metric-label">Team Size</span>
-                                </div>
-                            </div>
-                            <div class="interest-tags">
-                                <span class="interest-tag">Computer Vision</span>
-                                <span class="interest-tag">Neural Networks</span>
-                                <span class="interest-tag">Flask</span>
-                                <span class="interest-tag">Inclusivity</span>
-                                <span class="interest-tag">Publication</span>
-                            </div>
-                            <div class="project-links">
-                                <a class="project-link" href="https://docs.google.com/presentation/d/1LWxeHAhGYC-RIRD8In2cEQ1WzpG8-BbV/edit?usp=sharing&ouid=100136032893560107579&rtpof=true&sd=true" target="_blank" rel="noopener">View project deck</a>
-                                <a class="project-link" href="https://drive.google.com/file/d/1AI4JjvmDrY7qsiXQAG549yVJYt48tvXL/view?usp=sharing" target="_blank" rel="noopener">View report</a>
-                                <a class="project-link" href="https://link.springer.com/chapter/10.1007/978-981-99-2742-5_32" target="_blank" rel="noopener">View conference paper</a>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Publications Modal -->
-    <div class="modal" id="publications-modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="modal-body">
-                <h2>Publications</h2>
-                <div class="publication-item">
-                    <h3>A Review on Sign Language Recognition Techniques</h3>
-                    <p class="publication-meta">Published in: Proceedings of the 2nd International Conference on Cognitive and Intelligent Computing</p>
-                    <div class="publication-tags">
-                        <span class="edu-pill">Publisher: Springer</span>
-                        <span class="edu-pill">Date: Sep 27, 2023</span>
-                    </div>
-                    <p class="description">Contributed to the academic field by publishing a Springer paper on existing sign language recognition methodologies, conducting a comprehensive literature survey to identify breakthroughs and common limitations, laying the groundwork for an innovative solution proposal using computer vision and deep learning.</p>
-                    <a class="publication-link" href="https://link.springer.com/chapter/10.1007/978-981-99-2742-5_32" target="_blank" rel="noopener">Read the paper</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Volunteering Modal -->
-    <div class="modal" id="volunteering-modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="modal-body">
-                <h2>Community Service & Volunteering</h2>
-                <div class="volunteer-overview">
-                    <div class="volunteer-stats">
-                        <div class="volunteer-stat volunteer-stat--animal">
-                            <span class="volunteer-stat-value">Multiple</span>
-                            <span class="volunteer-stat-label">Welfare groups supported</span>
-                        </div>
-                        <div class="volunteer-stat volunteer-stat--outreach">
-                            <span class="volunteer-stat-value">5,500+</span>
-                            <span class="volunteer-stat-label">Individuals supported by NGO</span>
-                        </div>
-                        <div class="volunteer-stat volunteer-stat--tutor">
-                            <span class="volunteer-stat-value">38+</span>
-                            <span class="volunteer-stat-label">Students mentored weekly</span>
-                        </div>
-                        <div class="volunteer-stat volunteer-stat--leadership">
-                            <span class="volunteer-stat-value">2</span>
-                            <span class="volunteer-stat-label">Campus leadership roles</span>
-                        </div>
-                    </div>
-                    <nav class="volunteer-nav" aria-label="Community service sections">
-                        <a class="volunteer-nav-link" href="#volunteer-animal">Animal Welfare</a>
-                        <a class="volunteer-nav-link" href="#volunteer-outreach">Education Outreach</a>
-                        <a class="volunteer-nav-link" href="#volunteer-tutor">Peer Tutoring</a>
-                        <a class="volunteer-nav-link" href="#volunteer-leadership">Student Leadership</a>
-                    </nav>
-                </div>
-                <div class="volunteer-grid">
-                    <article class="volunteer-card volunteer-card--animal" id="volunteer-animal">
-                        <div class="volunteer-card-header">
-                            <img class="volunteer-icon" src="images/dogbowl.png" alt="Street animal welfare icon">
-                            <div>
-                                <h3>Street Animal Welfare Volunteer</h3>
-                                <p class="volunteer-meta">Hyderabad, India</p>
-                            </div>
-                        </div>
-                        <div class="volunteer-separator" aria-hidden="true">
-                            <span class="volunteer-separator-icon">
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M10 13a5 5 0 0 0 7.07 0l1.41-1.41a5 5 0 0 0 0-7.07 5 5 0 0 0-7.07 0L10 6"/>
-                                    <path d="M14 11a5 5 0 0 0-7.07 0L5.52 12.4a5 5 0 0 0 0 7.07 5 5 0 0 0 7.07 0L14 18"/>
-                                </svg>
-                            </span>
-                        </div>
-                        <p class="description">During my undergraduate years, I actively volunteered with multiple local dog welfare groups and independent rescuers across Hyderabad to support injured, abandoned, and at-risk street dogs.</p>
-                        <p class="description">My involvement included coordinating basic medical care, arranging food and temporary shelter, assisting with rescue operations, and helping connect animals with adoption networks. I regularly collaborated with volunteers and local associations to raise awareness about responsible pet care and the importance of sterilization and vaccination in reducing long-term street animal suffering.</p>
-                        <p class="description">This experience taught me empathy, patience under pressure, and the value of consistent, small actions in creating meaningful impact for vulnerable communities.</p>
-                    </article>
-
-                    <article class="volunteer-card volunteer-card--outreach" id="volunteer-outreach">
-                        <div class="volunteer-card-header">
-                            <img class="volunteer-icon" src="images/NGO.png" alt="Education outreach icon">
-                            <div>
-                                <h3>Education Outreach Volunteer</h3>
-                                <p class="volunteer-meta">Government School, Hyderabad</p>
-                                <p class="volunteer-org">In collaboration with Communicando Literary Club &amp; HOPE FOR LIFE (NGO)</p>
-                            </div>
-                        </div>
-                        <div class="volunteer-separator" aria-hidden="true">
-                            <span class="volunteer-separator-icon">
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M10 13a5 5 0 0 0 7.07 0l1.41-1.41a5 5 0 0 0 0-7.07 5 5 0 0 0-7.07 0L10 6"/>
-                                    <path d="M14 11a5 5 0 0 0-7.07 0L5.52 12.4a5 5 0 0 0 0 7.07 5 5 0 0 0 7.07 0L14 18"/>
-                                </svg>
-                            </span>
-                        </div>
-                        <p class="description">As part of the Communicando Literary Club, I volunteered at a government school in Hyderabad through a community outreach initiative in collaboration with HOPE FOR LIFE, an NGO that provides support and assistance to over 5,500 individuals facing extraordinary circumstances across the state.</p>
-                        <p class="description">I assisted teachers during classroom activities, supported students with basic mathematics, English, and computer fundamentals, and encouraged them to explore technology as a tool for learning and opportunity. Many of these students had limited exposure to digital education, and introducing them to computers and problem-solving concepts became one of the most rewarding parts of my volunteering experience.</p>
-                    </article>
-
-                    <article class="volunteer-card volunteer-card--tutor" id="volunteer-tutor">
-                        <div class="volunteer-card-header">
-                            <img class="volunteer-icon" src="images/education.png" alt="Peer tutor icon">
-                            <div>
-                                <h3>Peer Tutor | Academic Support Volunteer</h3>
-                                <p class="volunteer-meta">Chaitanya Bharathi Institute of Technology</p>
-                                <p class="volunteer-org">Hyderabad, India</p>
-                            </div>
-                        </div>
-                        <div class="volunteer-separator" aria-hidden="true">
-                            <span class="volunteer-separator-icon">
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M10 13a5 5 0 0 0 7.07 0l1.41-1.41a5 5 0 0 0 0-7.07 5 5 0 0 0-7.07 0L10 6"/>
-                                    <path d="M14 11a5 5 0 0 0-7.07 0L5.52 12.4a5 5 0 0 0 0 7.07 5 5 0 0 0 7.07 0L14 18"/>
-                                </svg>
-                            </span>
-                        </div>
-                        <p class="description">While pursuing my undergraduate degree, I volunteered as a peer tutor for students struggling with Advanced Data Structures and Database Management Systems.</p>
-                        <p class="description">I conducted weekly tutoring sessions for over 38 students, helping them strengthen technical fundamentals, improve problem-solving skills, and gain confidence in subjects that often feel intimidating. Beyond academics, I served as a mentor for juniors navigating coursework, projects, and early career decisions.</p>
-                    </article>
-
-                    <article class="volunteer-card volunteer-card--leadership" id="volunteer-leadership">
-                        <div class="volunteer-card-header">
-                            <img class="volunteer-icon" src="images/literalClub.png" alt="Student leadership icon">
-                            <div>
-                                <h3>Student Leadership &amp; Campus Engagement</h3>
-                                <p class="volunteer-meta">Communicando Literary Club, CBIT</p>
-                                <p class="volunteer-org">Head of Website Department | Senior Coordinator of Events</p>
-                            </div>
-                        </div>
-                        <div class="volunteer-separator" aria-hidden="true">
-                            <span class="volunteer-separator-icon">
-                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M10 13a5 5 0 0 0 7.07 0l1.41-1.41a5 5 0 0 0 0-7.07 5 5 0 0 0-7.07 0L10 6"/>
-                                    <path d="M14 11a5 5 0 0 0-7.07 0L5.52 12.4a5 5 0 0 0 0 7.07 5 5 0 0 0 7.07 0L14 18"/>
-                                </svg>
-                            </span>
-                        </div>
-                        <p class="description">At Communicando, the college's literary club, I played a key leadership role in building both the club's digital presence and its campus impact.</p>
-                        <p class="description">As Head of the Website Department, I led the design and development of the club's official website, creating a central platform for event communication, student engagement, and content sharing.</p>
-                        <p class="description">As Senior Coordinator of Events, I helped conceptualize and execute workshops and interactive events focused on improving students' vocabulary, communication skills, and confidence, while also organizing fun campus-wide activities such as impersonation contests and creative competitions. These events consistently drew high participation and strengthened the club's role as a creative and inclusive student community.</p>
-                        <a class="volunteer-link" href="https://www.instagram.com/communicando/" target="_blank" rel="noopener">Visit Communicando on Instagram</a>
-                    </article>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- About Modal (short summary, opened from navbar) -->
-    <div class="modal" id="about-modal">
-        <div class="modal-content about-modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="modal-body about-modal-body">
-                <div class="about-modal-hero">
-                    <span class="about-modal-kicker">About Me</span>
-                    <h2>"The Force will be with you. Always."</h2>
-                    <p class="about-modal-lede">That line from Star Wars is not about hope. It is about commitment. It means when things get difficult, when systems fail, when pressure rises, you do not disappear. You stay. You adapt. You finish what you started.</p>
-                </div>
-                <div class="about-modal-stack">
-                    <p class="about-modal-emphasis">That is how I build.</p>
-                    <p>I do not chase trends in technology. I build systems that endure. My journey began in engineering, sharpened in enterprise development, and now evolves at Indiana University's Kelley School of Business, where I pursue my Master's in Information Systems with a perfect 4.0 GPA while serving as a Graduate Assistant for academic excellence. But the real story is not the credentials. It is the mindset behind them. I am obsessed with understanding how complex systems work and unwilling to tolerate inefficiency in any form.</p>
-                    <div class="about-modal-split">
-                        <div class="about-modal-split-text">
-                            <p>At Accelerize360, I rose from developer to Senior Developer by doing the hard things well and doing them consistently. I lead enterprise CRM architecture, design multi-cloud solutions for Fortune 500 clients, and deliver platforms executives trust when the stakes are high. I have built real-time performance dashboards that shape strategy, engineered backend optimizations that transformed system speed and reliability, and mentored over forty engineers to ship better software with confidence and discipline.</p>
-                        </div>
-                        <div class="about-modal-portrait-wrap">
-                            <img class="about-modal-portrait" src="images/ME.png" alt="Portrait of Nishanth Ganji">
-                        </div>
-                    </div>
-                    <p class="about-modal-divider">But engineering was never the endgame.</p>
-                    <p>I published AI research with Springer and led the creation of a real-time Sign Language Recognition system with ninety-nine percent accuracy, not for recognition, but to prove that technology should solve problems that matter. From neural networks to deployed platforms, I have taken ideas from nothing to production systems that change real lives.</p>
-                    <p>Leadership did not arrive with a title. It was forged in execution. I have led cross-functional teams, built governance frameworks, and owned products from first requirement to post-launch adoption. When complexity rises, I do not panic. I simplify. I align people. I execute. I speak the language of engineers, executives, and users, and I make sure they are moving toward the same future.</p>
-                    <p>Today my focus spans AI systems, enterprise platforms, cloud architecture, and product strategy. I do not just write code. I design leverage. I do not manage projects. I build momentum. I do not chase success. I construct it.</p>
-                    <p>This portfolio is not a highlight reel. It is a record of pressure faced, problems solved, systems built, teams elevated, and standards raised.</p>
-                    <p class="about-modal-final">And the mission is clear. We are only getting started.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- More About Me Modal (detailed, opened from the section) -->
-    <div class="modal" id="more-about-modal">
-        <div class="modal-content">
-            <button class="modal-close">&times;</button>
-            <div class="modal-body">
-                <div class="interests-modal">
-                    <section class="interests-hero">
-                        <div class="interests-hero-bg" aria-hidden="true"></div>
-                        <div class="interests-hero-content">
-                            <span class="interests-hero-kicker">Life &amp; Interests</span>
-                            <h2>The world beyond my work.</h2>
-                            <p class="interests-hero-subtitle">What keeps me curious, balanced, and alive.</p>
-                            <a class="interests-hero-scroll" href="#interests-intro" aria-label="Scroll to narrative intro">
-                                <svg viewBox="0 0 24 24" width="22" height="22" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M6 9l6 6 6-6"></path>
-                                </svg>
-                            </a>
-                        </div>
-                    </section>
-
-                    <section class="interests-intro interests-reveal" id="interests-intro">
-                        <p>Outside of work, I am driven by the same thing that shapes my career: curiosity and the desire to experience the world deeply, not just pass through it.</p>
-                        <p>Whether I am traveling to new places, framing a shot through a camera lens, grinding through a competitive game, or training on the mat, I approach life with intention. Every interest I pursue sharpens something different in me: focus, creativity, discipline, patience, or perspective. Together, they keep me grounded, balanced, and constantly evolving.</p>
-                    </section>
-
-                    <section class="interests-grid interests-reveal" aria-label="Interest highlights">
-                        <a class="interest-card" href="#travel">
-                            <div class="interest-card-media interest-card-media--travel" role="img" aria-label="Travel image placeholder"></div>
-                            <div class="interest-card-body">
-                                <h3>Travel</h3>
-                                <p>Japan and Thailand taught me perspective. More places next.</p>
-                                <span class="interest-card-link">View story</span>
-                            </div>
-                        </a>
-                        <a class="interest-card" href="#cinema">
-                            <div class="interest-card-media interest-card-media--cinema" role="img" aria-label="Cinematography image placeholder"></div>
-                            <div class="interest-card-body">
-                                <h3>Cinematography &amp; Photography</h3>
-                                <p>Mood, light, and storytelling in frames.</p>
-                                <span class="interest-card-link">View story</span>
-                            </div>
-                        </a>
-                        <a class="interest-card" href="#pickleball">
-                            <div class="interest-card-media interest-card-media--pickleball" role="img" aria-label="Pickleball image placeholder"></div>
-                            <div class="interest-card-body">
-                                <h3>Pickleball</h3>
-                                <p>Fast rallies, good friends, better energy.</p>
-                                <span class="interest-card-link">View story</span>
-                            </div>
-                        </a>
-                        <a class="interest-card" href="#gaming">
-                            <div class="interest-card-media interest-card-media--gaming" role="img" aria-label="Competitive gaming image placeholder"></div>
-                            <div class="interest-card-body">
-                                <h3>Competitive Gaming</h3>
-                                <p>Strategy, reflex, adaptation.</p>
-                                <span class="interest-card-link">View story</span>
-                            </div>
-                        </a>
-                        <a class="interest-card" href="#scuba">
-                            <div class="interest-card-media interest-card-media--scuba" role="img" aria-label="Scuba diving image placeholder"></div>
-                            <div class="interest-card-body">
-                                <h3>Scuba Diving</h3>
-                                <p>Stillness beneath the surface.</p>
-                                <span class="interest-card-link">View story</span>
-                            </div>
-                        </a>
-                        <a class="interest-card" href="#pluto">
-                            <div class="interest-card-media interest-card-media--pluto" role="img" aria-label="Pluto image placeholder"></div>
-                            <div class="interest-card-body">
-                                <h3>Pluto</h3>
-                                <p>The best part of my day.</p>
-                                <span class="interest-card-link">View story</span>
-                            </div>
-                        </a>
-                    </section>
-
-                    <section class="interest-story interests-reveal" id="travel">
-                        <div class="interest-media">
-                            <div class="interest-carousel" data-carousel="travel" tabindex="0" aria-label="Travel photo carousel">
-                                <div class="carousel-stack">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Travel%201.jpg" alt="Travel scene 1">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Travel%202.jpeg" alt="Travel scene 2">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Travel%203.jpg" alt="Travel scene 3">
-                                </div>
-                                <div class="carousel-controls" aria-hidden="true">
-                                    <button class="carousel-control prev" type="button" aria-label="Previous image">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M15 18l-6-6 6-6"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="carousel-control next" type="button" aria-label="Next image">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M9 18l6-6-6-6"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="interest-content">
-                            <h3>Travel</h3>
-                            <p>Travel, for me, is about perspective.</p>
-                            <p>Japan and Thailand were more than trips. They were experiences that changed how I see people, design, and everyday life. I came back with a deeper respect for culture, craft, and the quiet details that make places unforgettable.</p>
-                            <p>I am still early in my travel story, and that is the exciting part. I want to explore more countries, collect more perspectives, and keep letting the world widen the way I think.</p>
-                            <div class="interest-tags">
-                                <span class="interest-tag">Culture</span>
-                                <span class="interest-tag">Perspective</span>
-                                <span class="interest-tag">Exploration</span>
-                            </div>
-                            <p class="interest-muted">Countries visited: Japan, Thailand</p>
-                        </div>
-                    </section>
-
-                    <section class="interest-story interests-reveal is-reverse" id="cinema">
-                        <div class="interest-media">
-                            <div class="interest-carousel" data-carousel="cinema" tabindex="0" aria-label="Cinematography photo carousel">
-                                <div class="carousel-stack">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Cinematography%20and%20Photography%201.jpg" alt="Cinematography scene 1">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Cinematography%20and%20Photography%202.jpg" alt="Cinematography scene 2">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Cinematography%20and%20Photography%203.jpg" alt="Cinematography scene 3">
-                                </div>
-                                <div class="carousel-controls" aria-hidden="true">
-                                    <button class="carousel-control prev" type="button" aria-label="Previous image">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M15 18l-6-6 6-6"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="carousel-control next" type="button" aria-label="Next image">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M9 18l6-6-6-6"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="interest-content">
-                            <h3>Cinematography &amp; Photography</h3>
-                            <p>Storytelling is not only something I build through products and systems, but also through visuals.</p>
-                            <p>I am deeply interested in cinematography and photography, especially in capturing mood, movement, and emotion through light and framing. I create short cinematic videos and visual stories, some of which I share on Instagram. If this resonates with you, feel free to reach out and I will gladly share the link.</p>
-                            <p>This craft has taught me patience, attention to detail, and how powerful a single frame can be.</p>
-                            <div class="interest-tags">
-                                <span class="interest-tag">Cinematography</span>
-                                <span class="interest-tag">Photography</span>
-                                <span class="interest-tag">Editing</span>
-                            </div>
-                            <a class="interest-cta" href="https://www.instagram.com/nishanth_2205?igsh=MW9idzhtaW9zNHl6aQ%3D%3D&utm_source=qr">Request Instagram link</a>
-                        </div>
-                    </section>
-
-                    <section class="interest-story interests-reveal" id="pickleball">
-                        <div class="interest-media">
-                            <div class="interest-carousel" data-carousel="pickleball" tabindex="0" aria-label="Pickleball photo carousel">
-                                <div class="carousel-stack">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Pickleball%201.jpg" alt="Pickleball scene 1">
-                                </div>
-                                <div class="carousel-controls" aria-hidden="true">
-                                    <button class="carousel-control prev" type="button" aria-label="Previous image">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M15 18l-6-6 6-6"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="carousel-control next" type="button" aria-label="Next image">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M9 18l6-6-6-6"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="interest-content">
-                            <h3>Pickleball</h3>
-                            <p>Pickleball is my reset button.</p>
-                            <p>It is fast, social, competitive in the best way, and one of my favorite ways to stay active while spending time with friends. It keeps me moving, laughing, and grounded in the present.</p>
-                            <div class="interest-tags">
-                                <span class="interest-tag">Community</span>
-                                <span class="interest-tag">Fitness</span>
-                                <span class="interest-tag">Fun</span>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="interest-story interests-reveal is-reverse" id="gaming">
-                        <div class="interest-media">
-                            <div class="interest-carousel" data-carousel="gaming" tabindex="0" aria-label="Competitive gaming photo carousel">
-                                <div class="carousel-stack">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Competitive%20Gaming%201.jpg" alt="Gaming scene 1">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Competitive%20Gaming%202.jpg" alt="Gaming scene 2">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Competitive%20Gaming%203.jpg" alt="Gaming scene 3">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Competitive%20Gaming%204.jpg" alt="Gaming scene 4">
-                                </div>
-                                <div class="carousel-controls" aria-hidden="true">
-                                    <button class="carousel-control prev" type="button" aria-label="Previous image">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M15 18l-6-6 6-6"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="carousel-control next" type="button" aria-label="Next image">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M9 18l6-6-6-6"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="interest-content">
-                            <h3>Competitive Gaming</h3>
-                            <p>I enjoy competitive gaming as a serious mental sport.</p>
-                            <p>From high-level matches in Tekken 8 and Marvel Rivals to exploring entire worlds across many video games, I love the constant balance between strategy, reflex, and adaptation.</p>
-                            <p>Gaming sharpens my decision-making, focus, and ability to perform under pressure.</p>
-                            <div class="interest-tags">
-                                <span class="interest-tag">Strategy</span>
-                                <span class="interest-tag">Competition</span>
-                                <span class="interest-tag">Focus</span>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="interest-story interests-reveal" id="scuba">
-                        <div class="interest-media">
-                            <div class="interest-carousel" data-carousel="scuba" tabindex="0" aria-label="Scuba diving photo carousel">
-                                <div class="carousel-stack">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Scuba%20Diving%201.jpeg" alt="Scuba diving scene 1">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Scuba%20Diving%202.jpeg" alt="Scuba diving scene 2">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Scuba%20Diving%203.jpeg" alt="Scuba diving scene 3">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Scuba%20Diving%204.jpeg" alt="Scuba diving scene 4">
-                                </div>
-                                <div class="carousel-controls" aria-hidden="true">
-                                    <button class="carousel-control prev" type="button" aria-label="Previous image">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M15 18l-6-6 6-6"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="carousel-control next" type="button" aria-label="Next image">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M9 18l6-6-6-6"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="interest-content">
-                            <h3>Scuba Diving</h3>
-                            <p>Scuba diving is where time slows down for me.</p>
-                            <p>Underwater, everything becomes quieter, calmer, and more intentional. It is one of the few places where I completely disconnect from noise and reconnect with myself.</p>
-                            <p>Floating between coral, currents, and open blue water taught me patience, awareness, and respect for environments much larger than me. Every dive leaves me grounded, reset, and more present when I return to the surface.</p>
-                            <div class="interest-tags">
-                                <span class="interest-tag">Presence</span>
-                                <span class="interest-tag">Exploration</span>
-                                <span class="interest-tag">Calm</span>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="interest-story interest-pluto interests-reveal" id="pluto">
-                        <div class="interest-media">
-                            <div class="interest-carousel" data-carousel="pluto" tabindex="0" aria-label="Pluto photo carousel">
-                                <div class="carousel-stack">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Pluto%201.jpg" alt="Pluto photo 1">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Pluto%202.jpg" alt="Pluto photo 2">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Pluto%203.jpg" alt="Pluto photo 3">
-                                    <img class="carousel-card" src="images/Life%20%26%20Interests/Pluto%204.jpg" alt="Pluto photo 4">
-                                </div>
-                                <div class="carousel-controls" aria-hidden="true">
-                                    <button class="carousel-control prev" type="button" aria-label="Previous image">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M15 18l-6-6 6-6"></path>
-                                        </svg>
-                                    </button>
-                                    <button class="carousel-control next" type="button" aria-label="Next image">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                            <path d="M9 18l6-6-6-6"></path>
-                                        </svg>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="interest-content">
-                            <h3>Pluto</h3>
-                            <p>At the end of every long day, there is one constant that grounds me more than anything else.</p>
-                            <p>My English Cream Retriever, Pluto.</p>
-                            <p>He is the boy I live for and the face I wait to see at the end of the day. No matter how intense the world gets, his excitement, his energy, and that smile reset everything. He reminds me why balance matters, why presence matters, and why the small moments are always the most important.</p>
-                        </div>
-                    </section>
-
-                    <section class="interests-footer interests-reveal">
-                        <p>Everything I am at work is shaped by who I am outside of it.</p>
-                    </section>
-                </div>
-            </div>
-        </div>
-    </div>
+    <template id="detail-contact">
+        <p class="detail-kicker">Contact</p>
+        <h3 data-dark-text="Open to useful conversations and suspiciously complex workflows">Open to focused conversations</h3>
+        <p data-dark-text="Email and LinkedIn work. Morse code does not. Calendar chaos negotiable.">Best channels: email and LinkedIn.</p>
+        <div class="detail-links"><a href="mailto:nishanth.ganji@gmail.com">Email</a><a href="https://www.linkedin.com/in/nishanth-ganji/" target="_blank" rel="noopener">LinkedIn</a></div>
+    </template>
 
     <script src="script.js"></script>
 </body>
